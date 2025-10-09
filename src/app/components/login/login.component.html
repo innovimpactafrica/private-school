@@ -1,0 +1,94 @@
+<div class="min-h-screen bg-surface-100 flex items-center justify-center p-1">
+    <div class="w-full max-w-7xl flex bg-white rounded-2xl overflow-hidden">
+        <!-- Image gauche - visible complètement -->
+        <div class="hidden md:flex md:w-1/2 bg-cover bg-center animate-fade-in"
+            style="background-image: url('image.png');">
+            <!-- Pas d'overlay ni de texte - l'image parle d'elle-même -->
+        </div>
+
+        <!-- Section droite avec formulaire -->
+        <div class="flex flex-1 items-center justify-center p-8 md:p-20 animate-fade-in">
+            <div class="w-full max-w-md">
+                <!-- Logo -->
+                <div class="text-center mb-2">
+                    <img src="logo.png" alt="PST Logo" class="mx-auto w-50 h-40 object-contain animate-bounce-gentle" />
+                </div>
+
+                <h2 class="text-3xl font-semibold mb-4 text-gray-800 text-center animate-slide-down">Connexion</h2>
+                <p class="text-gray-500 mb-6 text-center animate-slide-down" style="animation-delay: 0.1s;">
+                    Accédez à votre espace pour suivre vos démarches en ligne
+                </p>
+
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate class="animate-scale-in"
+                    style="animation-delay: 0.2s;">
+                    <!-- Email -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">Identifiant</label>
+                        <input type="email" formControlName="email"
+                            placeholder="Saisir votre email ou numéro de téléphone" class="w-full px-4 py-3 border border-gray-300 rounded-lg
+                     focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:bg-white
+                     transition-all duration-200 ease-in-out
+                     hover:border-primary-300 hover:bg-white
+                     placeholder:text-gray-400 text-gray-700 text-sm" />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-6 relative">
+                        <label class="block text-gray-700 font-medium mb-2">Mot de passe</label>
+                        <input [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+                            placeholder="*******" class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg
+                     focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent focus:bg-white
+                     transition-all duration-200 ease-in-out
+                     hover:border-primary-300 hover:bg-white
+                     placeholder:text-gray-400 text-gray-700" />
+                        <button type="button" (click)="togglePassword()" class="absolute right-3 top-11 text-gray-400 hover:text-primary-600 
+                     transition-colors duration-200 p-1 rounded-md
+                     hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <!-- Votre SVG personnalisé -->
+                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.8103 15.5809C13.3183 16.5105 11.5873 17.0028 9.82045 17.0001C5.24624 17.0001 1.44062 13.7667 0.642334 9.50006C1.00714 7.55899 2.00105 5.7858 3.47577 4.44506L0.821332 1.84006L2.02172 0.660889L18.8179 17.1609L17.6175 18.3392L14.8095 15.5809H14.8103ZM4.67531 5.62505C3.52243 6.65471 2.71932 8.00737 2.37463 9.50006C2.63956 10.6388 3.17144 11.701 3.92793 12.6022C4.68442 13.5034 5.64464 14.2187 6.73214 14.6911C7.81964 15.1636 9.0044 15.3801 10.1921 15.3235C11.3798 15.2669 12.5376 14.9387 13.5735 14.3651L11.8531 12.6751C11.1207 13.1282 10.2533 13.3235 9.39309 13.2288C8.53292 13.134 7.73104 12.755 7.11899 12.1537C6.50695 11.5525 6.12106 10.7648 6.02464 9.91986C5.92821 9.07489 6.12696 8.22281 6.5883 7.50339L4.67531 5.62505ZM10.5958 11.4401L7.84553 8.73839C7.69458 9.11584 7.65906 9.52835 7.74331 9.92534C7.82757 10.3223 8.02794 10.6865 8.31985 10.9733C8.61176 11.26 8.98252 11.4569 9.38666 11.5396C9.7908 11.6224 10.2107 11.5875 10.595 11.4392L10.5958 11.4401ZM17.2917 13.3267L16.0778 12.1351C16.6448 11.3411 17.0486 10.446 17.2663 9.50006C17.0357 8.50816 16.6023 7.57268 15.9922 6.75047C15.3822 5.92826 14.6083 5.23649 13.7176 4.71723C12.8269 4.19796 11.838 3.86203 10.8111 3.72986C9.78412 3.59769 8.74053 3.67204 7.74373 3.94839L6.40506 2.63339C7.46293 2.22506 8.61582 2.00006 9.82045 2.00006C14.3947 2.00006 18.2003 5.23339 18.9986 9.50006C18.7386 10.8881 18.1544 12.198 17.2917 13.3267ZM9.58546 5.75672C10.1254 5.72394 10.6663 5.80428 11.1723 5.9924C11.6783 6.18053 12.1378 6.47215 12.5203 6.84793C12.9029 7.22371 13.1997 7.67508 13.3912 8.1721C13.5828 8.66913 13.6645 9.20046 13.6312 9.73089L9.58461 5.75672H9.58546Z"
+                                    fill="currentColor" />
+                            </svg>
+                        </button>
+                        <!-- Suppression des messages d'erreur pour focus design -->
+                    </div>
+
+                    <!-- Forgot password -->
+                    <div class="mb-8 text-right">
+                        <a routerLink="/reset-password"
+                            class="text-sm text-primary-600 hover:text-primary-700 hover:underline 
+                                 transition-all duration-200 ease-in-out
+                                 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-sm">
+                            Mot de passe oublié ?
+                        </a>
+                    </div>
+
+                    <!-- Submit -->
+                    <button type="submit" class="w-full bg-primary-500 text-white py-3 rounded-lg font-semibold text-base
+                   hover:bg-primary-600 active:bg-primary-700
+                   transition-all duration-200 ease-in-out
+                   hover:shadow-medium hover:-translate-y-0.5
+                   active:translate-y-0 active:shadow-soft
+                   focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                   disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                        [disabled]="isLoading">
+                        <span *ngIf="!isLoading" class="animate-fade-in">Se connecter</span>
+                        <span *ngIf="isLoading" class="flex items-center justify-center animate-pulse">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                </path>
+                            </svg>
+                            Connexion...
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
