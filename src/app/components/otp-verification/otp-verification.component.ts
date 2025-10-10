@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
     selector: 'app-otp-verification',
@@ -15,7 +15,7 @@ export class OtpVerificationComponent {
     isLoading: boolean = false;
     userEmail: string = 'votre@email.com'; // Récupéré depuis la navigation
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private router: Router) {
         this.otpForm = this.fb.group({
             digit1: [''],
             digit2: [''],
@@ -33,7 +33,8 @@ export class OtpVerificationComponent {
             this.isLoading = false;
             const otpCode = Object.values(this.otpForm.value).join('');
             console.log('Code OTP vérifié:', otpCode);
-            // Ici redirection vers dashboard ou succès
+            // Redirection vers reset-password après vérification réussie
+            this.router.navigate(['/reset-password']);
         }, 1500);
     }
 

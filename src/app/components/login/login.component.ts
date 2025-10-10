@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent {
   hidePassword: boolean = true;
   isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: [''],
       password: ['']
@@ -30,8 +30,9 @@ export class LoginComponent {
     setTimeout(() => {
       this.isLoading = false;
       console.log('Connexion réussie avec:', this.loginForm.value);
-      // Ici redirection ou action de succès
-    }, 1500);
+      // Redirection vers le dashboard après connexion réussie
+      this.router.navigate(['/dashboard']);
+    }, 1000);
   }
 
   togglePassword() {

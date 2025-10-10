@@ -1,42 +1,50 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css'
 })
-export class ResetPasswordComponent {
-  resetForm: FormGroup;
-  selectedMethod: 'email' | 'phone' = 'email';
-  isLoading: boolean = false;
+export class ResetPasswordComponent implements OnInit {
+  resetForm!: FormGroup;
+  showNewPassword = false;
+  showConfirmPassword = false;
+  isLoading = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
-    this.resetForm = this.fb.group({
-      contact: ['']
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.resetForm = this.formBuilder.group({
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
     });
   }
 
-  selectMethod(method: 'email' | 'phone') {
-    this.selectedMethod = method;
-    // Réinitialiser le champ quand on change de méthode
-    this.resetForm.patchValue({ contact: '' });
+  toggleNewPasswordVisibility() {
+    this.showNewPassword = !this.showNewPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   onSubmit() {
-    // Focus sur le design - pas de validation
-    this.isLoading = true;
-
-    // Simuler l'envoi du code puis rediriger vers OTP
-    setTimeout(() => {
-      this.isLoading = false;
-      console.log('Code envoyé à:', this.resetForm.value.contact, 'via', this.selectedMethod);
-      // Redirection vers la page OTP
-      this.router.navigate(['/otp-verification']);
-    }, 2000);
+    if (this.resetForm.valid) {
+      this.isLoading = true;
+      // Simulation d'appel API
+      setTimeout(() => {
+        this.isLoading = false;
+        // Redirection vers login après succès
+        this.router.navigate(['/login']);
+      }, 1000);
+    }
   }
 }

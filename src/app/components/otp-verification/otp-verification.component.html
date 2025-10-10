@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-surface-100 flex items-center justify-center p-4">
     <div class="w-full max-w-7xl flex bg-white rounded-2xl overflow-hidden">
-        <!-- Image gauche - même que login/reset -->
+        <!-- Image gauche -->
         <div class="hidden md:flex md:w-1/2 bg-cover bg-center animate-fade-in"
-            style="background-image: url('/image.png');">
+            style="background-image: url('image.png');">
             <!-- Pas d'overlay ni de texte - l'image parle d'elle-même -->
         </div>
 
@@ -11,13 +11,11 @@
             <div class="w-full max-w-md">
                 <!-- Logo -->
                 <div class="text-center mb-2">
-                    <img src="/logo.png" alt="PST Logo"
-                        class="mx-auto w-50 h-40 object-contain animate-bounce-gentle" />
+                    <img src="logo.png" alt="PST Logo" class="mx-auto w-50 h-40 object-contain animate-bounce-gentle" />
                 </div>
 
-                <h2 class="text-3xl font-semibold mb-4 text-gray-800 text-center animate-slide-down">Vérification OTP
-                </h2>
-                <p class="text-gray-500 mb-2 text-center animate-slide-down" style="animation-delay: 0.1s;">
+                <h2 class="text-3xl font-semibold mb-4 text-gray-800 text-center animate-slide-down">Vérification OTP</h2>
+                <p class="text-gray-500 mb-6 text-center animate-slide-down" style="animation-delay: 0.1s;">
                     Un code de vérification a été envoyé par SMS/Email au
                 </p>
                 <p class="text-gray-800 font-medium mb-6 text-center animate-slide-down"
@@ -32,42 +30,43 @@
                         <div class="flex gap-3 justify-center">
                             <input id="digit1" type="text" placeholder="*" formControlName="digit1" maxlength="1"
                                 [class]="otpForm.get('digit1')?.value ? 
-                                    'w-16 h-16 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
-                                    'w-16 h-16 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
+                                    'w-14 h-14 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
+                                    'w-14 h-14 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
                                 (input)="onInputChange($event, 'digit2')" (keydown)="onKeyDown($event)" />
 
                             <input id="digit2" type="text" placeholder="*" formControlName="digit2" maxlength="1"
                                 [class]="otpForm.get('digit2')?.value ? 
-                                    'w-16 h-16 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
-                                    'w-16 h-16 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
+                                    'w-14 h-14 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
+                                    'w-14 h-14 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
                                 (input)="onInputChange($event, 'digit3')" (keydown)="onKeyDown($event, 'digit1')" />
 
                             <input id="digit3" type="text" placeholder="*" formControlName="digit3" maxlength="1"
                                 [class]="otpForm.get('digit3')?.value ? 
-                                    'w-16 h-16 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
-                                    'w-16 h-16 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
+                                    'w-14 h-14 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
+                                    'w-14 h-14 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
                                 (input)="onInputChange($event, 'digit4')" (keydown)="onKeyDown($event, 'digit2')" />
 
                             <input id="digit4" type="text" placeholder="*" formControlName="digit4" maxlength="1"
                                 [class]="otpForm.get('digit4')?.value ? 
-                                    'w-16 h-16 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
-                                    'w-16 h-16 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
+                                    'w-14 h-14 border-2 border-primary-500 bg-primary-100 rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out' :
+                                    'w-14 h-14 border-2 border-gray-300 bg-white rounded-lg text-center text-xl font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 ease-in-out hover:border-primary-300'"
                                 (input)="onInputChange($event)" (keydown)="onKeyDown($event, 'digit3')" />
                         </div>
                     </div>
 
                     <!-- Message Renvoyer -->
-                    <div class="mb-6 text-center">
-                        <p class="text-gray-500 text-sm mb-2">Vous n'avez pas reçu le code ?</p>
-                        <button type="button" (click)="resendCode()" class="text-primary-600 hover:text-primary-700 font-medium hover:underline 
-                     transition-all duration-200 ease-in-out
-                     focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-sm">
-                            Renvoyer
-                        </button>
+                    <div class="mb-8 text-center">
+                        <p class="text-gray-500 mb-2">Vous n'avez pas reçu le code ?
+                            <span >
+                                <button type="button" (click)="resendCode()" class="text-primary-600 hover:text-primary-700 font-medium hover:underline transition-all duration-200 ease-in-out">
+                                    Renvoyer
+                                </button>
+                            </span>
+                        </p>
                     </div>
 
                     <!-- Bouton Vérifier -->
-                    <button type="submit" class="w-full bg-primary-500 text-white py-3 rounded-lg font-semibold text-base
+                    <button type="submit" class="w-full bg-primary-500 text-white  py-3 rounded-lg font-semibold text-base
                    hover:bg-primary-600 active:bg-primary-700
                    transition-all duration-200 ease-in-out
                    hover:shadow-medium hover:-translate-y-0.5
