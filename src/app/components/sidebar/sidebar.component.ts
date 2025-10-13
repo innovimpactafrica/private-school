@@ -21,6 +21,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   isCollapsed: boolean = false;
   isMobileMenuOpen: boolean = false;
   isMobile: boolean = false;
+  private resizeHandler = () => this.checkMobileView();
 
   menuItems: MenuItem[] = [
     { label: 'Tableau de bord', icon: 'dashboard', route: '/dashboard', active: true },
@@ -43,7 +44,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkMobileView();
-    window.addEventListener('resize', () => this.checkMobileView());
+    window.addEventListener('resize', this.resizeHandler);
   }
 
   toggleSidebar(): void {
@@ -71,6 +72,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('resize', () => this.checkMobileView());
+    window.removeEventListener('resize', this.resizeHandler);
   }
 }

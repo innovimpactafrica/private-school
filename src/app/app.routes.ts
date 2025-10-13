@@ -15,7 +15,7 @@ export const routes: Routes = [
         loadComponent: () => import('./components/otp-verification/otp-verification.component').then(m => m.OtpVerificationComponent)
     },
     {
-        path: 'reset-password', 
+        path: 'reset-password',
         loadComponent: () => import('./components/reset-password/reset-password.component').then(m => m.ResetPasswordComponent)
     },
     {
@@ -26,4 +26,10 @@ export const routes: Routes = [
         path: 'dashboard',
         loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent)
     },
+    {
+        path: 'account',
+        loadComponent: () => import('./components/account/account.component').then(m => m.AccountComponent)
+    },
+    // Fallback pour routes non définies
+    { path: '**', redirectTo: 'login' },
 ];

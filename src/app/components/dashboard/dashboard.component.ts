@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { Chart, ChartConfiguration, ChartType, ChartData, ChartOptions, registerables } from 'chart.js';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Chart, ChartConfiguration, ChartType, ChartData, ChartOptions, registerables, Plugin } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 // Enregistrer tous les composants Chart.js
@@ -19,23 +20,47 @@ interface StatCard {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, BaseChartDirective, ],
+  imports: [CommonModule, SidebarComponent, BaseChartDirective, RouterLink],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('barChart') barChartRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('pieChart') pieChartRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('lineChart') lineChartRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('growthChart') growthChartRef!: ElementRef<HTMLCanvasElement>;
+export class DashboardComponent {
 
-  selectedPeriod: string = 'year';
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-  // Variables pour stocker les instances des graphiques
-  private barChart: Chart | null = null;
-  private pieChart: Chart | null = null;
-  private lineChart: Chart | null = null;
-  private growthChart: Chart | null = null;
+
+
+  isOpen = false;
+  isProfileOpen = false;
+  periods = ["Cette année", "Ce mois", "Cette semaine"];
+  selectedPeriod = "Cette année";
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
+  }
+
+  selectPeriod(period: string) {
+    this.selectedPeriod = period;
+    this.isOpen = false;
+  }
+
+  toggleProfileMenu(event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.isProfileOpen = !this.isProfileOpen;
+  }
+
+  constructor(private eRef: ElementRef) { }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isProfileOpen = false;
+    }
+  }
+
+
 
   statsCards: StatCard[] = [
     {
@@ -93,253 +118,236 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   ];
 
-  ngOnInit(): void {
-    // Initialisation des données si nécessaire
-  }
-
-  ngAfterViewInit(): void {
-    // Créer les graphiques après que la vue soit initialisée
-    setTimeout(() => {
-      this.initializeCharts();
-    }, 100);
-  }
-
-  private initializeCharts(): void {
-    //this.createBarChart();
-    this.createPieChart();
-    this.createLineChart();
-    this.createGrowthChart();
-  }
-
-  consultationsBarData = {
-    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'],
-    datasets: [
-      { label: 'Médecine générale', data: [11, 16, 0, 18, 8], backgroundColor: '#22c55e', barPercentage: 0.9 },
-      { label: 'Cardiologie', data: [9, 0, 11, 7, 0], backgroundColor: '#3498DB', barPercentage: 0.9 },
-      { label: 'Radiologie', data: [6, 0, 16, 0, 12], backgroundColor: '#9B59B6', barPercentage: 0.9 },
-      { label: 'Dermatologie', data: [3, 18, 0, 10, 0], backgroundColor: '#f59e42', barPercentage: 0.9 }
-    ]
-  };
-  consultationsBarOptions: ChartOptions<'bar'> = {
+  barChartOptions: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
-  plugins: { legend: { position: 'bottom', labels: { boxWidth: 14 } } },
     scales: {
-      x: { 
-        stacked: true,
-        border: {
-          dash: [4],
-          color: '#666666'
-        }
-       },
+      x: {
+        grid: { display: false },
+        ticks: { color: '#6B7280', font: { size: 13 } }
+      },
       y: {
-        stacked: true,
-         border: {
-          dash: [4],
-          color: '#666666'
-        },
         beginAtZero: true,
-        max: 36,
-        ticks: {
-          stepSize: 9,
-          callback: function(value) { return value; }
+        grid: { color: '#F3F4F6' },
+        ticks: { color: '#9CA3AF', stepSize: 4 }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#111827',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+      }
+    }
+  };
+
+  barChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Terminés', 'Encours', 'Annulés'],
+    datasets: [
+      {
+        data: [21, 8, 2],
+        backgroundColor: ['#38AA36', '#FCD34D', '#EF4444'],
+        barThickness: 100,
+      }
+    ]
+  };
+
+  // ---- 2️⃣ Graphe donut (Répartition Utilisateurs)
+  pieChartOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '50%',
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'rectRound',
+          padding: 15,
+          font: { size: 12 },
+          // Taille des puces si besoin
+          boxWidth: 12,
+          boxHeight: 12,
+          generateLabels: (chart) => {
+            const c: any = chart as any;
+            const labels: any[] = c?.data?.labels ?? [];
+            const ds: any = c?.data?.datasets?.[0] ?? {};
+            const colors: string[] = (ds.backgroundColor as string[]) ?? [];
+            const values: number[] = (ds.data as number[]) ?? [];
+            return labels.map((label: any, i: number) => ({
+              text: `${label} : ${values[i]}%`,
+              fillStyle: colors[i],
+              strokeStyle: 'transparent', // pas de bordure
+              lineWidth: 0,
+              pointStyle: 'rectRounded',   // applique bien la forme
+              hidden: false,
+              index: i
+            }));
+
+          }
         }
       }
     }
   };
 
+  pieChartData: ChartConfiguration<'doughnut'>['data'] = {
+    labels: ['Parents', 'Enfants', 'Chauffeurs'],
+    datasets: [{
+      data: [29, 54, 18],
+      backgroundColor: ['#0EA5E9', '#38AA36', '#FCD34D'],
+      borderWidth: 0
+    }]
+  };
 
-  private createPieChart(): void {
-    if (this.pieChartRef?.nativeElement) {
-      const ctx = this.pieChartRef.nativeElement.getContext('2d');
-      if (ctx) {
-        this.pieChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Parents', 'Enfants', 'Chauffeurs'],
-            datasets: [{
-              data: [29, 54, 18],
-              backgroundColor: ['#0EA5E9', '#38AA36', '#FCD34D'],
-              borderWidth: 0
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '65%',
-            plugins: {
-              legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                  usePointStyle: true,
-                  pointStyle: 'circle',
-                  padding: 15,
-                  font: { size: 12 },
-                  generateLabels: (chart) => {
-                    const data = chart.data;
-                    if (data.labels && data.datasets.length) {
-                      return data.labels.map((label, i) => ({
-                        text: `${label} : ${data.datasets[0].data[i]}%`,
-                        fillStyle: (data.datasets[0].backgroundColor as string[])[i],
-                        hidden: false,
-                        index: i
-                      }));
-                    }
-                    return [];
-                  }
-                }
-              }
-            }
+  // ---- 3️⃣ Évolution des Revenus (Line)
+  revenueLineOptions: ChartOptions<'line'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#111827',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        callbacks: {
+          label: (ctx) => {
+            const v = ctx.parsed.y as number;
+            const k = Math.round(v / 1000);
+            return `${k}K FCFA`;
           }
-        });
+        }
+      },
+      // On peut aussi définir des plugins globaux ici si nécessaire
+    },
+    scales: {
+      x: {
+        grid: { color: '#EEF2F7' },
+        border: { display: false },
+        ticks: { color: '#9CA3AF' }
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: '#EEF2F7' },
+        border: { display: false },
+        ticks: {
+          color: '#9CA3AF',
+          stepSize: 25000,
+          callback: (value) => `${Number(value) / 1000}K`
+        }
       }
     }
-  }
+  };
 
-  private createLineChart(): void {
-    if (this.lineChartRef?.nativeElement) {
-      const ctx = this.lineChartRef.nativeElement.getContext('2d');
-      if (ctx) {
-        this.lineChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'],
-            datasets: [{
-              data: [120, 140, 110, 160, 180, 155],
-              borderColor: '#38AA36',
-              backgroundColor: 'rgba(56, 170, 54, 0.1)',
-              borderWidth: 3,
-              tension: 0.4,
-              fill: true,
-              pointBackgroundColor: '#38AA36',
-              pointBorderColor: '#ffffff',
-              pointBorderWidth: 2,
-              pointRadius: 5,
-              pointHoverRadius: 7
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false }
-            },
-            scales: {
-              x: {
-                grid: { display: false },
-                border: { display: false },
-                ticks: {
-                  font: { size: 12 },
-                  color: '#6b7280'
-                }
-              },
-              y: {
-                beginAtZero: true,
-                grid: { color: '#f3f4f6' },
-                border: { display: false },
-                ticks: {
-                  font: { size: 12 },
-                  color: '#6b7280',
-                  callback: (value) => `${value}K`
-                }
-              }
-            }
-          }
-        });
+  revenueLineData: ChartConfiguration<'line'>['data'] = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    datasets: [
+      {
+        data: [90000, 70000, 95000, 120000, 100000, 85000, 100000, 130000, 110000, 100000, 125000, 150000],
+        borderColor: '#3B82F6',
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        fill: false,
+        tension: 0.4,
+        pointRadius: 0,
+        pointHoverRadius: 4
+      }
+    ]
+  };
+
+  // Plugin pour ajouter un effet de glow/blur derrière la ligne (sans aplat en dessous)
+  revenueGlowPlugin: Plugin<'line'> = {
+    id: 'revenue-glow',
+    afterDatasetsDraw: (chart) => {
+      const meta = chart.getDatasetMeta(0);
+      const ds: any = chart.data.datasets?.[0] as any;
+      if (!meta || meta.hidden || !meta.dataset) return;
+      const ctx = chart.ctx as CanvasRenderingContext2D;
+      const color = (ds?.borderColor as string) || '#3B82F6';
+      const lineEl: any = meta.dataset;
+
+      // Sauvegarde des options d'origine
+      const origWidth = lineEl.options?.borderWidth ?? 3;
+      const origCap = lineEl.options?.borderCapStyle;
+      const origJoin = lineEl.options?.borderJoinStyle;
+
+      ctx.save();
+      // Coups larges et flous en arrière-plan (couches superposées)
+      const layers = [
+        { blur: 24, width: origWidth + 10, alpha: 0.25 },
+        { blur: 16, width: origWidth + 6, alpha: 0.2 },
+        { blur: 10, width: origWidth + 3, alpha: 0.15 }
+      ];
+
+      lineEl.options.borderCapStyle = 'round';
+      lineEl.options.borderJoinStyle = 'round';
+
+      layers.forEach(l => {
+        ctx.shadowColor = color;
+        ctx.shadowBlur = l.blur;
+        ctx.globalAlpha = l.alpha;
+        lineEl.options.borderWidth = l.width;
+        lineEl.draw(ctx);
+      });
+
+      // Restaure puis dessine la ligne nette par-dessus
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
+      lineEl.options.borderWidth = origWidth;
+      lineEl.options.borderCapStyle = origCap;
+      lineEl.options.borderJoinStyle = origJoin;
+      lineEl.draw(ctx);
+
+      ctx.restore();
+    }
+  };
+
+  // ---- 4️⃣ Croissance des Abonnements (Bar)
+  subsGrowthOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#111827',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        callbacks: {
+          label: (ctx) => `${ctx.parsed.y}K`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        border: { display: false },
+        ticks: { color: '#6B7280' }
+      },
+      y: {
+        beginAtZero: true,
+        border: { display: false },
+        grid: { color: '#EEF2F7' },
+        ticks: {
+          color: '#9CA3AF',
+          stepSize: 2,
+          callback: (value) => `${value}K`
+        }
       }
     }
-  }
+  };
 
-  private createGrowthChart(): void {
-    if (this.growthChartRef?.nativeElement) {
-      const ctx = this.growthChartRef.nativeElement.getContext('2d');
-      if (ctx) {
-        this.growthChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'],
-            datasets: [{
-              data: [5, 8, 12, 15, 18, 20],
-              borderColor: '#3B82F6',
-              backgroundColor: 'rgba(59, 130, 246, 0.1)',
-              borderWidth: 3,
-              tension: 0.4,
-              fill: true,
-              pointBackgroundColor: '#3B82F6',
-              pointBorderColor: '#ffffff',
-              pointBorderWidth: 2,
-              pointRadius: 5,
-              pointHoverRadius: 7
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false }
-            },
-            scales: {
-              x: {
-                grid: { display: false },
-                border: { display: false },
-                ticks: {
-                  font: { size: 12 },
-                  color: '#6b7280'
-                }
-              },
-              y: {
-                beginAtZero: true,
-                grid: { color: '#f3f4f6' },
-                border: { display: false },
-                ticks: {
-                  stepSize: 5,
-                  font: { size: 12 },
-                  color: '#6b7280'
-                }
-              }
-            }
-          }
-        });
+  subsGrowthData: ChartConfiguration<'bar'>['data'] = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+    datasets: [
+      {
+        data: [10, 6, 5, 3, 6, 1, 4, 2],
+        backgroundColor: '#38AA36',
+        borderRadius: 8,
+        barThickness: 5
       }
-    }
-  }
+    ]
+  };
 
-  changePeriod(period: string): void {
-    this.selectedPeriod = period;
-    this.refreshCharts();
-  }
 
-  private refreshCharts(): void {
-    // Détruire les anciens charts
-    this.destroyCharts();
 
-    // Recréer avec de nouvelles données selon la période
-    setTimeout(() => {
-      this.initializeCharts();
-    }, 100);
-  }
-
-  private destroyCharts(): void {
-    if (this.barChart) {
-      this.barChart.destroy();
-      this.barChart = null;
-    }
-    if (this.pieChart) {
-      this.pieChart.destroy();
-      this.pieChart = null;
-    }
-    if (this.lineChart) {
-      this.lineChart.destroy();
-      this.lineChart = null;
-    }
-    if (this.growthChart) {
-      this.growthChart.destroy();
-      this.growthChart = null;
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.destroyCharts();
-  }
 }
