@@ -11,7 +11,7 @@
     <!-- Navigation Menu -->
     <nav class="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
       <a *ngFor="let item of menuItems" (click)="navigateTo(item.route)"
-        [ngClass]="{'bg-[#38AA36] text-white': item.active, 'text-white/80 hover:bg-purple-700': !item.active}"
+        [ngClass]="{'bg-[#38AA36] text-white': item.active, 'text-white/80 hover:bg-transparent': !item.active}"
         class="flex items-center px-4 py-3 rounded-lg transition-colors cursor-pointer">
         <div class="w-6 h-6 mr-3" aria-hidden="true">
           <ng-container [ngSwitch]="item.icon">

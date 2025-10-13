@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef,HostListener } from '@angular/core';
 import { Chart, ChartConfiguration, ChartType, ChartData, ChartOptions, registerables, Plugin } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { HeaderComponent } from '../header/header.component';
 
 // Enregistrer tous les composants Chart.js
 Chart.register(...registerables);
@@ -20,7 +20,7 @@ interface StatCard {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, BaseChartDirective, RouterLink],
+  imports: [CommonModule, BaseChartDirective, SidebarComponent, HeaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -28,9 +28,7 @@ export class DashboardComponent {
 
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-
-
-  isOpen = false;
+ isOpen = false;
   isProfileOpen = false;
   periods = ["Cette année", "Ce mois", "Cette semaine"];
   selectedPeriod = "Cette année";
@@ -43,24 +41,7 @@ export class DashboardComponent {
     this.selectedPeriod = period;
     this.isOpen = false;
   }
-
-  toggleProfileMenu(event?: MouseEvent) {
-    if (event) {
-      event.stopPropagation();
-    }
-    this.isProfileOpen = !this.isProfileOpen;
-  }
-
-  constructor(private eRef: ElementRef) { }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    if (!this.eRef.nativeElement.contains(event.target)) {
-      this.isProfileOpen = false;
-    }
-  }
-
-
+  
 
   statsCards: StatCard[] = [
     {

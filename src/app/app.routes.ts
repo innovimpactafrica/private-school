@@ -30,6 +30,11 @@ export const routes: Routes = [
         path: 'account',
         loadComponent: () => import('./components/account/account.component').then(m => m.AccountComponent)
     },
+
+    {
+        path: 'header',
+        loadComponent: () => import('./components/header/header.component').then(m => m.HeaderComponent)
+    },
     // Fallback pour routes non définies
     { path: '**', redirectTo: 'login' },
 ];
