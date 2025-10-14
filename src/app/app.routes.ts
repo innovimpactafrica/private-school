@@ -35,6 +35,18 @@ export const routes: Routes = [
         path: 'header',
         loadComponent: () => import('./components/header/header.component').then(m => m.HeaderComponent)
     },
+    {
+        path: 'nouveau-utilisateur',
+        loadComponent: () => import('./utilisateurs/nouveau-utilisateur/nouveau-utilisateur.component').then(m => m.NouveauUtilisateurComponent)
+    },
+    {
+        path: 'modifier-utilisateur',
+        loadComponent: () => import('./utilisateurs/modifier-utilisateur/modifier-utilisateur.component').then(m => m.ModifierUtilisateurComponent)
+    },
+    {
+        path: 'liste-utilisateurs',
+        loadComponent: () => import('./utilisateurs/liste-utilisateurs/liste-utilisateurs.component').then(m => m.ListeUtilisateursComponent)
+    },
     // Fallback pour routes non définies
     { path: '**', redirectTo: 'login' },
 ];

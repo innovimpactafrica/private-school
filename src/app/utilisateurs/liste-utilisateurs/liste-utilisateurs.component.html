@@ -1,1 +1,141 @@
-<p>liste-utilisateurs works!</p>
+<div class="flex min-h-screen bg-[#EDF1F7]">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Contenu principal -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <app-header></app-header>
+
+        <!-- Contenu -->
+        <main class="px-8 py-5">
+            <!-- Titre -->
+            <div class="flex items-center justify-between mb-5">
+                <div>
+                    <h1 class="text-2xl font-semibold text-gray-800">Gestion des utilisateurs</h1>
+                </div>
+                <button (click)="goToCreate()"
+                    class="flex items-center gap-2 bg-green-600 text-white px-4 py-4 rounded-lg text-sm font-medium hover:bg-green-700 transition">
+                    <!-- SVG + -->
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 18.75C5.175 18.75 1.25 14.825 1.25 10C1.25 5.175 5.175 1.25 10 1.25C14.825 1.25 18.75 5.175 18.75 10C18.75 14.825 14.825 18.75 10 18.75ZM10 2.5C5.8625 2.5 2.5 5.8625 2.5 10C2.5 14.1375 5.8625 17.5 10 17.5C14.1375 17.5 17.5 14.1375 17.5 10C17.5 5.8625 14.1375 2.5 10 2.5Z"
+                            fill="white" />
+                        <path
+                            d="M10 14.375C9.65 14.375 9.375 14.1 9.375 13.75V6.25C9.375 5.9 9.65 5.625 10 5.625C10.35 5.625 10.625 5.9 10.625 6.25V13.75C10.625 14.1 10.35 14.375 10 14.375Z"
+                            fill="white" />
+                        <path
+                            d="M13.75 10.625H6.25C5.9 10.625 5.625 10.35 5.625 10C5.625 9.65 5.9 9.375 6.25 9.375H13.75C14.1 9.375 14.375 9.65 14.375 10C14.375 10.35 14.1 10.625 13.75 10.625Z"
+                            fill="white" />
+                    </svg>
+                    Ajouter un utilisateur
+                </button>
+            </div>
+            <div class=" lg:col-span-3 bg-white rounded-xl px-4 py-2">
+                <div class="py-4">
+                    <h2 class="text-xl font-semibold">Liste des utilisateurs</h2>
+                </div>
+                <!-- Barre de recherche -->
+                <div class="flex items-center gap-3 mb-6">
+
+                    <div class="flex items-center border rounded-lg bg-white px-3 w-1/3">
+                        <!-- SVG recherche -->
+
+                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.6523 16.9942L13.7886 13.1305M15.8759 8.11214C15.8759 12.0365 12.6946 15.2178 8.77022 15.2178C4.84587 15.2178 1.66455 12.0365 1.66455 8.11214C1.66455 4.18779 4.84587 1.00647 8.77022 1.00647C12.6946 1.00647 15.8759 4.18779 15.8759 8.11214Z"
+                                stroke="#667085" stroke-width="1.77642" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <input type="text" placeholder="Recherche"
+                            class="w-full px-2 py-3 text-sm border-0 outline-none focus:outline-none focus:ring-0 appearance-none bg-transparent" />
+                    </div>
+                    <button
+                        class="flex items-center gap-2 border rounded-lg bg-white px-3 py-3 text-sm hover:bg-gray-50 transition">
+                        <!-- SVG filtre -->
+                        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.79028 6H13.7903M1.29028 1H16.2903M6.29028 11H11.2903" stroke="#344054"
+                                stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Filtrer avancé
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="rounded-xl overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-100 uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-4 font-bold">Nom</th>
+                                <th class="px-6 py-4 font-bold">Adresse</th>
+                                <th class="px-6 py-4 font-bold">Email</th>
+                                <th class="px-6 py-4 font-bold">Téléphone</th>
+                                <th class="px-6 py-4 font-bold">Rôle</th>
+                                <th class="px-6 py-4 font-bold">Statut</th>
+                                <th class="px-6 py-4 font-bold text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users" class="border-b hover:bg-gray-50">
+                                <td class="px-6 py-5 font-medium text-gray-800">{{ user.nom }}</td>
+                                <td class="px-6 py-5">{{ user.adresse }}</td>
+                                <td class="px-6 py-5">{{ user.email }}</td>
+                                <td class="px-6 py-5">{{ user.telephone }}</td>
+                                <td class="px-6 py-5">{{ user.role }}</td>
+                                <td class="px-6 py-5">
+                                    <span
+                                        class="inline-flex items-center gap-2 text-sm font-medium px-3 py-1 rounded-full"
+                                        [ngClass]="{
+                                                                        'text-green-600': user.statut === 'Actif',
+                                                                        'text-red-600': user.statut === 'Inactif'
+                                                                    }" [ngStyle]="{
+                                                                        'background-color': user.statut === 'Actif' ? '#0A97480F' : '#FF09090F'
+                                                                    }">
+                                        <span class="w-2 h-2 rounded-full" [ngClass]="{
+                                                                            'bg-green-700': user.statut === 'Actif',
+                                                                            'bg-red-600': user.statut === 'Inactif'
+                                                                        }"></span>
+                                        {{ user.statut }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-6 flex items-center justify-left gap-10">
+                                    <!-- SVG edit -->
+                                    <button class="text-blue-500 hover:text-blue-700" (click)="goToEdit(user)">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2.16667 13.8333H3.35417L11.5 5.6875L10.3125 4.5L2.16667 12.6458V13.8333ZM0.5 15.5V11.9583L11.5 0.979167C11.6667 0.826389 11.8508 0.708333 12.0525 0.625C12.2542 0.541667 12.4658 0.5 12.6875 0.5C12.9092 0.5 13.1244 0.541667 13.3333 0.625C13.5422 0.708333 13.7228 0.833333 13.875 1L15.0208 2.16667C15.1875 2.31944 15.3092 2.5 15.3858 2.70833C15.4625 2.91667 15.5006 3.125 15.5 3.33333C15.5 3.55556 15.4619 3.7675 15.3858 3.96917C15.3097 4.17083 15.1881 4.35472 15.0208 4.52083L4.04167 15.5H0.5ZM10.8958 5.10417L10.3125 4.5L11.5 5.6875L10.8958 5.10417Z"
+                                                fill="#2F2884" />
+                                        </svg>
+                                    </button>
+                                    <!-- SVG toggle -->
+                                    <button>
+                                        <svg *ngIf="user.statut === 'Actif'" width="24" height="14" viewBox="0 0 24 14"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="24" height="14" rx="7" fill="#009E3B" />
+                                            <circle cx="17" cy="7.00061" r="5" fill="white" />
+                                        </svg>
+                                        <svg *ngIf="user.statut === 'Inactif'" width="24" height="14"
+                                            viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="24" height="14" rx="7" fill="#D0D5DD" />
+                                            <circle cx="7.38184" cy="6.96106" r="5" fill="white" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-between items-center py-3 text-sm text-gray-600">
+                        <span>Page 1 sur 12</span>
+                        <div class="flex gap-2">
+                            <button class="border rounded-lg px-3 py-2 hover:bg-gray-100">Précédent</button>
+                            <button class="border rounded-lg px-3 py-2 hover:bg-gray-100">Suivant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
