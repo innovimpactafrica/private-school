@@ -47,6 +47,10 @@ export const routes: Routes = [
         path: 'liste-utilisateurs',
         loadComponent: () => import('./utilisateurs/liste-utilisateurs/liste-utilisateurs.component').then(m => m.ListeUtilisateursComponent)
     },
+    {
+        path: 'drivers',
+        loadComponent: () => import('./drivers/drivers-list/drivers-list.component').then(m => m.DriversListComponent)
+    },
     // Fallback pour routes non définies
     { path: '**', redirectTo: 'login' },
 ];

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { HeaderComponent } from '../../components/header/header.component';
     templateUrl: './modifier-utilisateur.component.html',
     styleUrls: ['./modifier-utilisateur.component.css']
 })
-export class ModifierUtilisateurComponent {
+export class ModifierUtilisateurComponent implements OnDestroy {
     form = {
         prenom: '',
         nom: '',
@@ -22,7 +22,12 @@ export class ModifierUtilisateurComponent {
         role: ''
     };
 
+    isConfirmOpen = false;
+    isSuccessOpen = false;
+    private successTimeout?: any;
+
     constructor(private router: Router) {
+
         const state = history.state as any;
         if (state && state.user) {
             const [prenom, ...rest] = (state.user.nom || '').split(' ');
@@ -39,11 +44,31 @@ export class ModifierUtilisateurComponent {
     }
 
     enregistrer() {
-        // TODO: integrate API; for now, just go back to list
-        this.router.navigate(['/liste-utilisateurs']);
+        // Open confirmation modal instead of immediate navigation
+        this.isConfirmOpen = true;
     }
 
     annuler() {
         this.router.navigate(['/liste-utilisateurs']);
+    }
+
+    closeConfirm() {
+        this.isConfirmOpen = false;
+    }
+
+    confirmUpdate() {
+        // TODO: integrate API update call
+        this.isConfirmOpen = false;
+        this.isSuccessOpen = true;
+        this.successTimeout = setTimeout(() => {
+            this.isSuccessOpen = false;
+            this.router.navigate(['/liste-utilisateurs']);
+        }, 3000);
+    }
+
+    ngOnDestroy(): void {
+        if (this.successTimeout) {
+            clearTimeout(this.successTimeout);
+        }
     }
 }

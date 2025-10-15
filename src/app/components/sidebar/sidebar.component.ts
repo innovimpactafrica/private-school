@@ -79,6 +79,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.menuItems.forEach(item => {
       if (item.route === '/liste-utilisateurs') {
         item.active = currentRoute === '/liste-utilisateurs' || currentRoute === '/nouveau-utilisateur' || currentRoute === '/modifier-utilisateur';
+      } else if (item.route === '/drivers') {
+        item.active = currentRoute === '/drivers';
       } else {
         item.active = item.route === currentRoute;
       }

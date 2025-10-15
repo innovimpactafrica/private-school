@@ -15,9 +15,9 @@ import { HeaderComponent } from '../../components/header/header.component';
 export class ListeUtilisateursComponent {
 
   users = [
-    { nom: 'Abou Fall', adresse: 'Yembeul, reu 21', email: 'fallabou@gmail.com', telephone: '77 234 56 78', role: 'Admin', statut: 'Actif' },
-    { nom: 'Jean Ngom', adresse: 'Ouakam, reu 2', email: 'ngomjean@gmail.com', telephone: '76 234 00 98', role: 'Resp. Logistique', statut: 'Actif' },
-    { nom: 'Mama Drame', adresse: 'Parcelle, unité 12', email: 'dramemama@gmail.com', telephone: '78 934 06 08', role: 'Resp. Logistique', statut: 'Inactif' },
+    { nom: 'Abou Fall', adresse: 'Yembeul, rue 21', email: 'fallabou@gmail.com', telephone: '77 234 56 78', role: 'Admin', statut: 'Actif' },
+    { nom: 'Jean Ngom', adresse: 'Ouakam, rue 2', email: 'ngomjean@gmail.com', telephone: '76 234 00 98', role: 'Resp. Logistique', statut: 'Actif' },
+    { nom: 'Mama Drame', adresse: 'Parcelles, unité 12', email: 'dramemama@gmail.com', telephone: '78 934 06 08', role: 'Resp. Logistique', statut: 'Inactif' },
   ];
 
   constructor(private router: Router) { }

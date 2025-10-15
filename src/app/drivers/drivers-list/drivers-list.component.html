@@ -1,0 +1,551 @@
+<div class="flex min-h-screen bg-[#EDF1F7]">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <app-header></app-header>
+
+        <!-- Content -->
+        <main class="px-8 py-5">
+            <!-- Title -->
+            <div class="mb-5">
+                <h1 class="text-2xl font-semibold text-gray-800">Gestion des chauffeurs</h1>
+            </div>
+
+            <div class="bg-white rounded-xl px-4 py-2">
+                <div class="py-4">
+                    <h2 class="text-xl font-semibold">Liste des chauffeurs</h2>
+                </div>
+
+                <!-- Search and filter -->
+                <div class="flex items-center gap-3 mb-6 border-y -mx-4 px-4 py-2" style="border-color: #EDF1F7;">
+                    <div class="flex items-center border rounded-lg bg-white px-3 w-1/3">
+                        <!-- Placeholder search icon -->
+                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.6523 16.9942L13.7886 13.1305M15.8759 8.11214C15.8759 12.0365 12.6946 15.2178 8.77022 15.2178C4.84587 15.2178 1.66455 12.0365 1.66455 8.11214C1.66455 4.18779 4.84587 1.00647 8.77022 1.00647C12.6946 1.00647 15.8759 4.18779 15.8759 8.11214Z"
+                                stroke="#667085" stroke-width="1.77642" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <input [(ngModel)]="search" type="text" placeholder="Recherche"
+                            class="w-full px-2 py-4 text-sm border-0 outline-none focus:outline-none focus:ring-0 appearance-none bg-transparent" />
+                    </div>
+                    <button
+                        class="flex items-center gap-2 border rounded-lg bg-white px-3 py-4 text-sm hover:bg-gray-50 transition">
+                        <!-- Placeholder filter icon -->
+                        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.79028 6H13.7903M1.29028 1H16.2903M6.29028 11H11.2903" stroke="#344054"
+                                stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Filtrer avancé
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="rounded-xl overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-[#F2F5F9] uppercase">
+                            <tr>
+                                <th class="px-6 py-4 font-bold">Chauffeur</th>
+                                <th class="px-6 py-4 font-bold">Contact</th>
+                                <th class="px-6 py-4 font-bold">Vehicule</th>
+                                <th class="px-6 py-4 font-bold">Trajets</th>
+                                <th class="px-6 py-4 font-bold">Statut</th>
+                                <th class="px-6 py-4 font-bold text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of filteredDrivers" class="border-b hover:bg-gray-50">
+                                <td class="px-6 py-4 font-medium text-gray-800">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-700 text-lg font-bold">
+                                            {{ d.initials }}</div>
+                                        <div>
+                                            <div>{{ d.name }}</div>
+                                            <div class="text-xs text-gray-500">{{ d.id }}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- View Driver Modal -->
+                                    <div *ngIf="isViewOpen"
+                                        class="fixed inset-0 z-50 flex items-center justify-center ">
+                                        <!-- Backdrop -->
+                                        <div class="absolute inset-0 bg-black/10" (click)="closeModal()"></div>
+                                        <!-- Dialog -->
+                                        <div class="relative bg-white rounded-xl w-[1064px] max-w-[95vw]" role="dialog"
+                                            aria-modal="true">
+                                            <div class="flex items-start justify-between px-8 pt-8 pb-4 border-b">
+                                                <h2 class="text-2xl text-gray-800">Validation du chauffeur
+                                                </h2>
+                                                <button (click)="closeModal()"
+                                                    class="text-gray-500 hover:text-gray-700">
+                                                    <!-- Placeholder close icon -->
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M6 6L18 18M18 6L6 18" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <div class="px-6 pb-4 space-y-6">
+                                                <!-- Informations générales -->
+                                                <div class="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-12 ">
+                                                    <div class="md:col-span-3">
+                                                        <p class="text-base font-light italic text-green-500 border-b -mx-6 px-4 py-2"
+                                                            style="border-color: #EDF1F7;">Information générales</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-400 mb-1">Prénom</p>
+                                                        <p class="text-gray-800 text-lg font-medium">{{
+                                                            selectedDriver?.firstName }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-400 mb-1">Nom</p>
+                                                        <p class="text-gray-800 text-lg font-medium">{{
+                                                            selectedDriver?.lastName
+                                                            }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-400 mb-1">Téléphone</p>
+                                                        <p class="text-gray-800 text-lg font-medium">{{
+                                                            selectedDriver?.contact
+                                                            }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-400 mb-1">Email</p>
+                                                        <p class="text-gray-800 text-lg font-medium">{{
+                                                            selectedDriver?.email }}
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-400 mb-1">Véhicule</p>
+                                                        <p class="text-gray-800 text-lg font-medium">{{
+                                                            selectedDriver?.vehicle
+                                                            }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-gray-400 mb-1">Couleur du véhicule</p>
+                                                        <p class="text-gray-800 text-lg font-medium">{{
+                                                            selectedDriver?.vehicleColor }}</p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Documents joints -->
+                                                <div class="space-y-4">
+                                                    <p class="text-base font-light italic text-green-500 border-b -mx-6 px-4 py-2"
+                                                        style="border-color: #EDF1F7;">Documents joints</p>
+                                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                                        <!-- Card -->
+                                                        <div
+                                                            class="bg-[#F2F5F9] rounded-xl p-5 flex items-center justify-between">
+                                                            <div class="flex items-center gap-3">
+                                                                <!-- Placeholder doc icon -->
+                                                                <div
+                                                                    class="w-10 h-10 rounded-md bg-blue-100 flex items-center justify-center">
+                                                                    <span class="text-blue-600 text-sm font-semibold">
+                                                                        <svg width="18" height="15" viewBox="0 0 18 15"
+                                                                            fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path
+                                                                                d="M0 2.5H18C18 1.39688 17.1031 0.5 16 0.5H2C0.896875 0.5 0 1.39688 0 2.5ZM0 3.5V12.5C0 13.6031 0.896875 14.5 2 14.5H16C17.1031 14.5 18 13.6031 18 12.5V3.5H0ZM2 12.1656C2 11.2437 2.74688 10.5 3.66563 10.5H7.33437C8.25625 10.5 9 11.2469 9 12.1656C9 12.35 8.85 12.5 8.66562 12.5H2.33437C2.15 12.5 2 12.35 2 12.1656ZM5.5 5.5C6.03043 5.5 6.53914 5.71071 6.91421 6.08579C7.28929 6.46086 7.5 6.96957 7.5 7.5C7.5 8.03043 7.28929 8.53914 6.91421 8.91421C6.53914 9.28929 6.03043 9.5 5.5 9.5C4.96957 9.5 4.46086 9.28929 4.08579 8.91421C3.71071 8.53914 3.5 8.03043 3.5 7.5C3.5 6.96957 3.71071 6.46086 4.08579 6.08579C4.46086 5.71071 4.96957 5.5 5.5 5.5ZM11 6C11 5.725 11.225 5.5 11.5 5.5H15.5C15.775 5.5 16 5.725 16 6C16 6.275 15.775 6.5 15.5 6.5H11.5C11.225 6.5 11 6.275 11 6ZM11 8C11 7.725 11.225 7.5 11.5 7.5H15.5C15.775 7.5 16 7.725 16 8C16 8.275 15.775 8.5 15.5 8.5H11.5C11.225 8.5 11 8.275 11 8ZM11 10C11 9.725 11.225 9.5 11.5 9.5H15.5C15.775 9.5 16 9.725 16 10C16 10.275 15.775 10.5 15.5 10.5H11.5C11.225 10.5 11 10.275 11 10Z"
+                                                                                fill="#2563EB" />
+                                                                        </svg>
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <p class="text-base font-medium text-gray-800">
+                                                                        Permis de conduire</p>
+                                                                    <p class="font-light text-gray-500">Document
+                                                                        obligatoire</p>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Placeholder menu dots -->
+                                                            <button class="text-gray-500 hover:text-gray-700">
+                                                                <svg width="26" height="25" viewBox="0 0 26 25"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M12.5071 13.5423C13.0828 13.5423 13.5494 13.0757 13.5494 12.5C13.5494 11.9244 13.0828 11.4578 12.5071 11.4578C11.9315 11.4578 11.4648 11.9244 11.4648 12.5C11.4648 13.0757 11.9315 13.5423 12.5071 13.5423Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                    <path
+                                                                        d="M12.5071 6.24619C13.0828 6.24619 13.5494 5.77954 13.5494 5.2039C13.5494 4.62827 13.0828 4.16162 12.5071 4.16162C11.9315 4.16162 11.4648 4.62827 11.4648 5.2039C11.4648 5.77954 11.9315 6.24619 12.5071 6.24619Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                    <path
+                                                                        d="M12.5071 20.8382C13.0828 20.8382 13.5494 20.3716 13.5494 19.7959C13.5494 19.2203 13.0828 18.7537 12.5071 18.7537C11.9315 18.7537 11.4648 19.2203 11.4648 19.7959C11.4648 20.3716 11.9315 20.8382 12.5071 20.8382Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                </svg>
+
+                                                            </button>
+                                                        </div>
+                                                        <div
+                                                            class="bg-[#F2F5F9] rounded-xl p-5 flex items-center justify-between">
+                                                            <div class="flex items-center gap-3">
+                                                                <div
+                                                                    class="w-10 h-10 rounded-md bg-purple-100 flex items-center justify-center">
+                                                                    <span class="text-purple-600 text-sm font-semibold">
+                                                                        <svg width="19" height="15" viewBox="0 0 19 15"
+                                                                            fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path
+                                                                                d="M2.32812 0.5C1.225 0.5 0.328125 1.39688 0.328125 2.5V12.5C0.328125 13.6031 1.225 14.5 2.32812 14.5H16.3281C17.4312 14.5 18.3281 13.6031 18.3281 12.5V2.5C18.3281 1.39688 17.4312 0.5 16.3281 0.5H2.32812ZM4.82812 8.5H6.82812C8.20937 8.5 9.32812 9.61875 9.32812 11C9.32812 11.275 9.10312 11.5 8.82812 11.5H2.82812C2.55312 11.5 2.32812 11.275 2.32812 11C2.32812 9.61875 3.44688 8.5 4.82812 8.5ZM3.82812 5.5C3.82812 4.96957 4.03884 4.46086 4.41391 4.08579C4.78898 3.71071 5.29769 3.5 5.82812 3.5C6.35856 3.5 6.86727 3.71071 7.24234 4.08579C7.61741 4.46086 7.82812 4.96957 7.82812 5.5C7.82812 6.03043 7.61741 6.53914 7.24234 6.91421C6.86727 7.28929 6.35856 7.5 5.82812 7.5C5.29769 7.5 4.78898 7.28929 4.41391 6.91421C4.03884 6.53914 3.82812 6.03043 3.82812 5.5ZM11.8281 4.5H15.8281C16.1031 4.5 16.3281 4.725 16.3281 5C16.3281 5.275 16.1031 5.5 15.8281 5.5H11.8281C11.5531 5.5 11.3281 5.275 11.3281 5C11.3281 4.725 11.5531 4.5 11.8281 4.5ZM11.8281 6.5H15.8281C16.1031 6.5 16.3281 6.725 16.3281 7C16.3281 7.275 16.1031 7.5 15.8281 7.5H11.8281C11.5531 7.5 11.3281 7.275 11.3281 7C11.3281 6.725 11.5531 6.5 11.8281 6.5ZM11.8281 8.5H15.8281C16.1031 8.5 16.3281 8.725 16.3281 9C16.3281 9.275 16.1031 9.5 15.8281 9.5H11.8281C11.5531 9.5 11.3281 9.275 11.3281 9C11.3281 8.725 11.5531 8.5 11.8281 8.5Z"
+                                                                                fill="#9333EA" />
+                                                                        </svg>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <p class="text-base font-medium text-gray-800">Pièce
+                                                                        d'identité</p>
+                                                                    <p class="font-light text-gray-500">Document
+                                                                        obligatoire</p>
+                                                                </div>
+                                                            </div>
+                                                            <button class="text-gray-500 hover:text-gray-700">
+                                                                <svg width="26" height="25" viewBox="0 0 26 25"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M12.5071 13.5423C13.0828 13.5423 13.5494 13.0757 13.5494 12.5C13.5494 11.9244 13.0828 11.4578 12.5071 11.4578C11.9315 11.4578 11.4648 11.9244 11.4648 12.5C11.4648 13.0757 11.9315 13.5423 12.5071 13.5423Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                    <path
+                                                                        d="M12.5071 6.24619C13.0828 6.24619 13.5494 5.77954 13.5494 5.2039C13.5494 4.62827 13.0828 4.16162 12.5071 4.16162C11.9315 4.16162 11.4648 4.62827 11.4648 5.2039C11.4648 5.77954 11.9315 6.24619 12.5071 6.24619Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                    <path
+                                                                        d="M12.5071 20.8382C13.0828 20.8382 13.5494 20.3716 13.5494 19.7959C13.5494 19.2203 13.0828 18.7537 12.5071 18.7537C11.9315 18.7537 11.4648 19.2203 11.4648 19.7959C11.4648 20.3716 11.9315 20.8382 12.5071 20.8382Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                </svg>
+
+                                                            </button>
+                                                        </div>
+                                                        <div
+                                                            class="bg-[#F2F5F9] rounded-xl p-5 flex items-center justify-between">
+                                                            <div class="flex items-center gap-3">
+                                                                <div
+                                                                    class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center">
+                                                                    <span class="text-green-600 text-sm font-semibold">
+                                                                        <svg width="17" height="15" viewBox="0 0 17 15"
+                                                                            fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path
+                                                                                d="M4.88125 3.16875L4.06562 5.5H13.2469L12.4312 3.16875C12.2906 2.76875 11.9125 2.5 11.4875 2.5H5.825C5.4 2.5 5.02187 2.76875 4.88125 3.16875ZM1.89375 5.65L2.99375 2.50938C3.41563 1.30625 4.55 0.5 5.825 0.5H11.4875C12.7625 0.5 13.8969 1.30625 14.3188 2.50938L15.4187 5.65C16.1438 5.95 16.6562 6.66563 16.6562 7.5V12V13.5C16.6562 14.0531 16.2094 14.5 15.6562 14.5H14.6562C14.1031 14.5 13.6562 14.0531 13.6562 13.5V12H3.65625V13.5C3.65625 14.0531 3.20937 14.5 2.65625 14.5H1.65625C1.10312 14.5 0.65625 14.0531 0.65625 13.5V12V7.5C0.65625 6.66563 1.16875 5.95 1.89375 5.65ZM4.65625 8.5C4.65625 8.23478 4.55089 7.98043 4.36336 7.79289C4.17582 7.60536 3.92147 7.5 3.65625 7.5C3.39103 7.5 3.13668 7.60536 2.94914 7.79289C2.76161 7.98043 2.65625 8.23478 2.65625 8.5C2.65625 8.76522 2.76161 9.01957 2.94914 9.20711C3.13668 9.39464 3.39103 9.5 3.65625 9.5C3.92147 9.5 4.17582 9.39464 4.36336 9.20711C4.55089 9.01957 4.65625 8.76522 4.65625 8.5ZM13.6562 9.5C13.9215 9.5 14.1758 9.39464 14.3634 9.20711C14.5509 9.01957 14.6562 8.76522 14.6562 8.5C14.6562 8.23478 14.5509 7.98043 14.3634 7.79289C14.1758 7.60536 13.9215 7.5 13.6562 7.5C13.391 7.5 13.1367 7.60536 12.9491 7.79289C12.7616 7.98043 12.6562 8.23478 12.6562 8.5C12.6562 8.76522 12.7616 9.01957 12.9491 9.20711C13.1367 9.39464 13.391 9.5 13.6562 9.5Z"
+                                                                                fill="#38AA36" />
+                                                                        </svg>
+
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <p class="text-base font-medium text-gray-800">Photo
+                                                                        du véhicule</p>
+                                                                    <p class="font-light text-gray-500">Document
+                                                                        obligatoire</p>
+                                                                </div>
+                                                            </div>
+                                                            <button class="text-gray-500 hover:text-gray-700">
+                                                                <svg width="26" height="25" viewBox="0 0 26 25"
+                                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M12.5071 13.5423C13.0828 13.5423 13.5494 13.0757 13.5494 12.5C13.5494 11.9244 13.0828 11.4578 12.5071 11.4578C11.9315 11.4578 11.4648 11.9244 11.4648 12.5C11.4648 13.0757 11.9315 13.5423 12.5071 13.5423Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                    <path
+                                                                        d="M12.5071 6.24619C13.0828 6.24619 13.5494 5.77954 13.5494 5.2039C13.5494 4.62827 13.0828 4.16162 12.5071 4.16162C11.9315 4.16162 11.4648 4.62827 11.4648 5.2039C11.4648 5.77954 11.9315 6.24619 12.5071 6.24619Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                    <path
+                                                                        d="M12.5071 20.8382C13.0828 20.8382 13.5494 20.3716 13.5494 19.7959C13.5494 19.2203 13.0828 18.7537 12.5071 18.7537C11.9315 18.7537 11.4648 19.2203 11.4648 19.7959C11.4648 20.3716 11.9315 20.8382 12.5071 20.8382Z"
+                                                                        stroke="#212121" stroke-width="2.08456"
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round" />
+                                                                </svg>
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="pt-2">
+                                                    <button (click)="closeModal()"
+                                                        class="px-6 py-4 bg-[#F2F5F9] text-gray-700 rounded-lg hover:bg-gray-200">Annuler</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">{{ d.contact }}</td>
+                                <td class="px-6 py-4">{{ d.vehicle }}</td>
+                                <td class="px-6 py-4">{{ d.trajets }}</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1 rounded-full"
+                                        [ngStyle]="{ 'background-color': d.statut === 'Approuvé' ? '#0A97480F' : '#EAB3080F' }"
+                                        [ngClass]="{ 'text-green-600': d.statut === 'Approuvé', 'text-yellow-500': d.statut !== 'Approuvé' }">
+                                        <span class="w-2 h-2 rounded-full"
+                                            [ngClass]="{ 'bg-green-700': d.statut === 'Approuvé', 'bg-yellow-500': d.statut !== 'Approuvé' }"></span>
+                                        {{ d.statut }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-6 flex items-center justify-left gap-10">
+                                    <!-- Placeholder eye icon -->
+                                    <button class="text-gray-600 hover:text-gray-800" title="Voir"
+                                        (click)="openDriver(d)">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10 4C4.5 4 1.25 10 1.25 10C1.25 10 4.5 16 10 16C15.5 16 18.75 10 18.75 10C18.75 10 15.5 4 10 4Z"
+                                                stroke="#475467" stroke-width="1.6" />
+                                            <circle cx="10" cy="10" r="2.8" stroke="#475467" stroke-width="1.6" />
+                                        </svg>
+                                    </button>
+                                    <!-- Placeholder edit icon -->
+                                    <button class="text-indigo-700 hover:text-indigo-900" title="Modifier"
+                                        (click)="openEdit(d)">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2.16667 13.8333H3.35417L11.5 5.6875L10.3125 4.5L2.16667 12.6458V13.8333ZM0.5 15.5V11.9583L11.5 0.979167C11.6667 0.826389 11.8508 0.708333 12.0525 0.625C12.2542 0.541667 12.4658 0.5 12.6875 0.5C12.9092 0.5 13.1244 0.541667 13.3333 0.625C13.5422 0.708333 13.7228 0.833333 13.875 1L15.0208 2.16667C15.1875 2.31944 15.3092 2.5 15.3858 2.70833C15.4625 2.91667 15.5006 3.125 15.5 3.33333C15.5 3.55556 15.4619 3.7675 15.3858 3.96917C15.3097 4.17083 15.1881 4.35472 15.0208 4.52083L4.04167 15.5H0.5ZM10.8958 5.10417L10.3125 4.5L11.5 5.6875L10.8958 5.10417Z"
+                                                fill="#2F2884" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-between items-center py-3 text-sm text-gray-600">
+                        <span>Page 1 sur 12</span>
+                        <div class="flex gap-2">
+                            <button class="border rounded-lg px-3 py-2 hover:bg-gray-100">Précédent</button>
+                            <button class="border rounded-lg px-3 py-2 hover:bg-gray-100">Suivant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Edit/Validation Modal -->
+<div *ngIf="isEditOpen" class="fixed inset-0 z-50 flex items-center justify-center">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/10" (click)="closeModal()"></div>
+    <!-- Dialog -->
+    <div class="relative bg-white rounded-xl w-[1064px] max-w-[95vw]" role="dialog" aria-modal="true">
+        <div class="flex items-start justify-between px-8 pt-8 pb-4 border-b">
+            <h2 class="text-2xl text-gray-800">Validation du chauffeur</h2>
+            <button (click)="closeModal()" class="text-gray-500 hover:text-gray-700">
+                <!-- Placeholder close icon -->
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="px-6 pb-4 space-y-6">
+            <!-- Informations générales -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-12 ">
+                <div class="md:col-span-3">
+                    <p class="text-base font-light italic text-green-500 border-b -mx-6 px-4 py-2"
+                        style="border-color: #EDF1F7;">Information générales</p>
+                </div>
+                <div>
+                    <p class="text-gray-400 mb-1">Prénom</p>
+                    <p class="text-gray-800 text-lg font-medium">{{ selectedDriver?.firstName }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-400 mb-1">Nom</p>
+                    <p class="text-gray-800 text-lg font-medium">{{ selectedDriver?.lastName }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-400 mb-1">Téléphone</p>
+                    <p class="text-gray-800 text-lg font-medium">{{ selectedDriver?.contact }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-400 mb-1">Email</p>
+                    <p class="text-gray-800 text-lg font-medium">{{ selectedDriver?.email }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-400 mb-1">Véhicule</p>
+                    <p class="text-gray-800 text-lg font-medium">{{ selectedDriver?.vehicle }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-400 mb-1">Couleur du véhicule</p>
+                    <p class="text-gray-800 text-lg font-medium">{{ selectedDriver?.vehicleColor }}</p>
+                </div>
+            </div>
+
+            <!-- Documents joints -->
+            <div class="space-y-4">
+                <p class="text-base font-light italic text-green-500 border-b -mx-6 px-4 py-2"
+                    style="border-color: #EDF1F7;">Documents joints</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Card -->
+                    <div class="bg-[#F2F5F9] rounded-xl p-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <!-- Placeholder doc icon -->
+                            <div class="w-10 h-10 rounded-md bg-blue-100 flex items-center justify-center">
+                                <span class="text-blue-600 text-sm font-semibold">
+                                    <svg width="18" height="15" viewBox="0 0 18 15" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M0 2.5H18C18 1.39688 17.1031 0.5 16 0.5H2C0.896875 0.5 0 1.39688 0 2.5ZM0 3.5V12.5C0 13.6031 0.896875 14.5 2 14.5H16C17.1031 14.5 18 13.6031 18 12.5V3.5H0ZM2 12.1656C2 11.2437 2.74688 10.5 3.66563 10.5H7.33437C8.25625 10.5 9 11.2469 9 12.1656C9 12.35 8.85 12.5 8.66562 12.5H2.33437C2.15 12.5 2 12.35 2 12.1656ZM5.5 5.5C6.03043 5.5 6.53914 5.71071 6.91421 6.08579C7.28929 6.46086 7.5 6.96957 7.5 7.5C7.5 8.03043 7.28929 8.53914 6.91421 8.91421C6.53914 9.28929 6.03043 9.5 5.5 9.5C4.96957 9.5 4.46086 9.28929 4.08579 8.91421C3.71071 8.53914 3.5 8.03043 3.5 7.5C3.5 6.96957 3.71071 6.46086 4.08579 6.08579C4.46086 5.71071 4.96957 5.5 5.5 5.5ZM11 6C11 5.725 11.225 5.5 11.5 5.5H15.5C15.775 5.5 16 5.725 16 6C16 6.275 15.775 6.5 15.5 6.5H11.5C11.225 6.5 11 6.275 11 6ZM11 8C11 7.725 11.225 7.5 11.5 7.5H15.5C15.775 7.5 16 7.725 16 8C16 8.275 15.775 8.5 15.5 8.5H11.5C11.225 8.5 11 8.275 11 8ZM11 10C11 9.725 11.225 9.5 11.5 9.5H15.5C15.775 9.5 16 9.725 16 10C16 10.275 15.775 10.5 15.5 10.5H11.5C11.225 10.5 11 10.275 11 10Z"
+                                            fill="#2563EB" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div>
+                                <p class="text-base font-medium text-gray-800">
+                                    Permis de conduire</p>
+                                <p class="font-light text-gray-500">Document
+                                    obligatoire</p>
+                            </div>
+                        </div>
+                        <!-- Placeholder menu dots -->
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <svg width="26" height="25" viewBox="0 0 26 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12.5071 13.5423C13.0828 13.5423 13.5494 13.0757 13.5494 12.5C13.5494 11.9244 13.0828 11.4578 12.5071 11.4578C11.9315 11.4578 11.4648 11.9244 11.4648 12.5C11.4648 13.0757 11.9315 13.5423 12.5071 13.5423Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12.5071 6.24619C13.0828 6.24619 13.5494 5.77954 13.5494 5.2039C13.5494 4.62827 13.0828 4.16162 12.5071 4.16162C11.9315 4.16162 11.4648 4.62827 11.4648 5.2039C11.4648 5.77954 11.9315 6.24619 12.5071 6.24619Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12.5071 20.8382C13.0828 20.8382 13.5494 20.3716 13.5494 19.7959C13.5494 19.2203 13.0828 18.7537 12.5071 18.7537C11.9315 18.7537 11.4648 19.2203 11.4648 19.7959C11.4648 20.3716 11.9315 20.8382 12.5071 20.8382Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+
+                        </button>
+                    </div>
+                    <div class="bg-[#F2F5F9] rounded-xl p-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-md bg-purple-100 flex items-center justify-center">
+                                <span class="text-purple-600 text-sm font-semibold">
+                                    <svg width="19" height="15" viewBox="0 0 19 15" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2.32812 0.5C1.225 0.5 0.328125 1.39688 0.328125 2.5V12.5C0.328125 13.6031 1.225 14.5 2.32812 14.5H16.3281C17.4312 14.5 18.3281 13.6031 18.3281 12.5V2.5C18.3281 1.39688 17.4312 0.5 16.3281 0.5H2.32812ZM4.82812 8.5H6.82812C8.20937 8.5 9.32812 9.61875 9.32812 11C9.32812 11.275 9.10312 11.5 8.82812 11.5H2.82812C2.55312 11.5 2.32812 11.275 2.32812 11C2.32812 9.61875 3.44688 8.5 4.82812 8.5ZM3.82812 5.5C3.82812 4.96957 4.03884 4.46086 4.41391 4.08579C4.78898 3.71071 5.29769 3.5 5.82812 3.5C6.35856 3.5 6.86727 3.71071 7.24234 4.08579C7.61741 4.46086 7.82812 4.96957 7.82812 5.5C7.82812 6.03043 7.61741 6.53914 7.24234 6.91421C6.86727 7.28929 6.35856 7.5 5.82812 7.5C5.29769 7.5 4.78898 7.28929 4.41391 6.91421C4.03884 6.53914 3.82812 6.03043 3.82812 5.5ZM11.8281 4.5H15.8281C16.1031 4.5 16.3281 4.725 16.3281 5C16.3281 5.275 16.1031 5.5 15.8281 5.5H11.8281C11.5531 5.5 11.3281 5.275 11.3281 5C11.3281 4.725 11.5531 4.5 11.8281 4.5ZM11.8281 6.5H15.8281C16.1031 6.5 16.3281 6.725 16.3281 7C16.3281 7.275 16.1031 7.5 15.8281 7.5H11.8281C11.5531 7.5 11.3281 7.275 11.3281 7C11.3281 6.725 11.5531 6.5 11.8281 6.5ZM11.8281 8.5H15.8281C16.1031 8.5 16.3281 8.725 16.3281 9C16.3281 9.275 16.1031 9.5 15.8281 9.5H11.8281C11.5531 9.5 11.3281 9.275 11.3281 9C11.3281 8.725 11.5531 8.5 11.8281 8.5Z"
+                                            fill="#9333EA" />
+                                    </svg>
+
+                                </span>
+                            </div>
+                            <div>
+                                <p class="text-base font-medium text-gray-800">Pièce
+                                    d'identité</p>
+                                <p class="font-light text-gray-500">Document
+                                    obligatoire</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <svg width="26" height="25" viewBox="0 0 26 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12.5071 13.5423C13.0828 13.5423 13.5494 13.0757 13.5494 12.5C13.5494 11.9244 13.0828 11.4578 12.5071 11.4578C11.9315 11.4578 11.4648 11.9244 11.4648 12.5C11.4648 13.0757 11.9315 13.5423 12.5071 13.5423Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12.5071 6.24619C13.0828 6.24619 13.5494 5.77954 13.5494 5.2039C13.5494 4.62827 13.0828 4.16162 12.5071 4.16162C11.9315 4.16162 11.4648 4.62827 11.4648 5.2039C11.4648 5.77954 11.9315 6.24619 12.5071 6.24619Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12.5071 20.8382C13.0828 20.8382 13.5494 20.3716 13.5494 19.7959C13.5494 19.2203 13.0828 18.7537 12.5071 18.7537C11.9315 18.7537 11.4648 19.2203 11.4648 19.7959C11.4648 20.3716 11.9315 20.8382 12.5071 20.8382Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+
+                        </button>
+                    </div>
+                    <div class="bg-[#F2F5F9] rounded-xl p-5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-md bg-green-100 flex items-center justify-center">
+                                <span class="text-green-600 text-sm font-semibold">
+                                    <svg width="17" height="15" viewBox="0 0 17 15" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M4.88125 3.16875L4.06562 5.5H13.2469L12.4312 3.16875C12.2906 2.76875 11.9125 2.5 11.4875 2.5H5.825C5.4 2.5 5.02187 2.76875 4.88125 3.16875ZM1.89375 5.65L2.99375 2.50938C3.41563 1.30625 4.55 0.5 5.825 0.5H11.4875C12.7625 0.5 13.8969 1.30625 14.3188 2.50938L15.4187 5.65C16.1438 5.95 16.6562 6.66563 16.6562 7.5V12V13.5C16.6562 14.0531 16.2094 14.5 15.6562 14.5H14.6562C14.1031 14.5 13.6562 14.0531 13.6562 13.5V12H3.65625V13.5C3.65625 14.0531 3.20937 14.5 2.65625 14.5H1.65625C1.10312 14.5 0.65625 14.0531 0.65625 13.5V12V7.5C0.65625 6.66563 1.16875 5.95 1.89375 5.65ZM4.65625 8.5C4.65625 8.23478 4.55089 7.98043 4.36336 7.79289C4.17582 7.60536 3.92147 7.5 3.65625 7.5C3.39103 7.5 3.13668 7.60536 2.94914 7.79289C2.76161 7.98043 2.65625 8.23478 2.65625 8.5C2.65625 8.76522 2.76161 9.01957 2.94914 9.20711C3.13668 9.39464 3.39103 9.5 3.65625 9.5C3.92147 9.5 4.17582 9.39464 4.36336 9.20711C4.55089 9.01957 4.65625 8.76522 4.65625 8.5ZM13.6562 9.5C13.9215 9.5 14.1758 9.39464 14.3634 9.20711C14.5509 9.01957 14.6562 8.76522 14.6562 8.5C14.6562 8.23478 14.5509 7.98043 14.3634 7.79289C14.1758 7.60536 13.9215 7.5 13.6562 7.5C13.391 7.5 13.1367 7.60536 12.9491 7.79289C12.7616 7.98043 12.6562 8.23478 12.6562 8.5C12.6562 8.76522 12.7616 9.01957 12.9491 9.20711C13.1367 9.39464 13.391 9.5 13.6562 9.5Z"
+                                            fill="#38AA36" />
+                                    </svg>
+
+                                </span>
+                            </div>
+                            <div>
+                                <p class="text-base font-medium text-gray-800">Photo
+                                    du véhicule</p>
+                                <p class="font-light text-gray-500">Document
+                                    obligatoire</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <svg width="26" height="25" viewBox="0 0 26 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12.5071 13.5423C13.0828 13.5423 13.5494 13.0757 13.5494 12.5C13.5494 11.9244 13.0828 11.4578 12.5071 11.4578C11.9315 11.4578 11.4648 11.9244 11.4648 12.5C11.4648 13.0757 11.9315 13.5423 12.5071 13.5423Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12.5071 6.24619C13.0828 6.24619 13.5494 5.77954 13.5494 5.2039C13.5494 4.62827 13.0828 4.16162 12.5071 4.16162C11.9315 4.16162 11.4648 4.62827 11.4648 5.2039C11.4648 5.77954 11.9315 6.24619 12.5071 6.24619Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M12.5071 20.8382C13.0828 20.8382 13.5494 20.3716 13.5494 19.7959C13.5494 19.2203 13.0828 18.7537 12.5071 18.7537C11.9315 18.7537 11.4648 19.2203 11.4648 19.7959C11.4648 20.3716 11.9315 20.8382 12.5071 20.8382Z"
+                                    stroke="#212121" stroke-width="2.08456" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-between items-center gap-3">
+                <span class="pt-2 justify-start">
+                    <button (click)="closeModal()"
+                        class="px-8 py-4 bg-[#F2F5F9] text-gray-700 rounded-lg hover:bg-gray-200">Annuler </button>
+                </span>
+                <div class="pt-2 space-x-4">
+                    <button (click)="closeModal()"
+                        class="px-8 py-3 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">Refuser</button>
+                    <button (click)="acceptDriver()"
+                        class="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700">Accepter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div *ngIf="isSuccessOpen" class="fixed inset-0 z-50 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/10"></div>
+        <div class="relative bg-white rounded-2xl shadow-lg px-16 py-14 text-center select-none">
+            <div class="mx-auto mb-8 flex items-center justify-center">
+                <!-- Green check icon inside a circle -->
+                <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="60" cy="60" r="50" stroke="#38AA36" stroke-width="8" fill="none" />
+                    <path d="M40 62L55 77L82 50" stroke="#38AA36" stroke-width="8" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <p class="text-lg leading-7 text-gray-800">
+                La demande <span class="font-semibold">D’inscription</span> a été acceptée avec succès
+            </p>
+        </div>
+    </div>

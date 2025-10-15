@@ -64,7 +64,7 @@ export class NouveauUtilisateurComponent implements OnDestroy {
         this.successTimeout = setTimeout(() => {
             this.isSuccessOpen = false;
             this.router.navigate(['/liste-utilisateurs']);
-        }, 9000);
+        }, 3000);
     }
 
     ngOnDestroy(): void {
