@@ -81,6 +81,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         item.active = currentRoute === '/liste-utilisateurs' || currentRoute === '/nouveau-utilisateur' || currentRoute === '/modifier-utilisateur';
       } else if (item.route === '/drivers') {
         item.active = currentRoute === '/drivers';
+      } else if (item.route === '/schools') {
+        item.active = currentRoute === '/schools' || currentRoute === '/schools/nouvelle-ecole';
       } else {
         item.active = item.route === currentRoute;
       }

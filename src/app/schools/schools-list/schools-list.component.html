@@ -1,0 +1,258 @@
+<div class="flex min-h-screen bg-[#EDF1F7]">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main content -->
+    <div class="flex-1 flex flex-col">
+        <!-- Header -->
+        <app-header></app-header>
+
+        <!-- Content -->
+        <main class="px-8 py-5">
+            <!-- Title -->
+            <div class="mb-5">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-2xl font-semibold text-gray-800">Gestion des écoles</h1>
+                    <button (click)="goToCreate()"
+                        class="flex items-center gap-2 bg-[#38AA36] text-white px-4 py-3 rounded-lg hover:bg-green-600">
+                        <!-- Placeholder plus icon -->
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M10 18.75C5.175 18.75 1.25 14.825 1.25 10C1.25 5.175 5.175 1.25 10 1.25C14.825 1.25 18.75 5.175 18.75 10C18.75 14.825 14.825 18.75 10 18.75ZM10 2.5C5.8625 2.5 2.5 5.8625 2.5 10C2.5 14.1375 5.8625 17.5 10 17.5C14.1375 17.5 17.5 14.1375 17.5 10C17.5 5.8625 14.1375 2.5 10 2.5Z"
+                                fill="white" />
+                            <path
+                                d="M10 14.375C9.65 14.375 9.375 14.1 9.375 13.75V6.25C9.375 5.9 9.65 5.625 10 5.625C10.35 5.625 10.625 5.9 10.625 6.25V13.75C10.625 14.1 10.35 14.375 10 14.375Z"
+                                fill="white" />
+                            <path
+                                d="M13.75 10.625H6.25C5.9 10.625 5.625 10.35 5.625 10C5.625 9.65 5.9 9.375 6.25 9.375H13.75C14.1 9.375 14.375 9.65 14.375 10C14.375 10.35 14.1 10.625 13.75 10.625Z"
+                                fill="white" />
+                        </svg>
+                        Ajouter une école
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cards summary -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+                <div class="bg-white rounded-xl p-5 flex items-center justify-between">
+                    <div>
+                        <div class="text-xl font-semibold">12</div>
+                        <div class="text-gray-500 pb-4">Total des écoles</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center">
+                        <!-- Placeholder school icon -->
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6 21V11.398C6 10.33 6 9.79596 6.245 9.34796C6.489 8.89996 6.938 8.61096 7.837 8.03296L9.919 6.69496C10.444 6.35796 10.706 6.18896 11 6.18896C11.294 6.18896 11.556 6.35796 12.082 6.69496L14.163 8.03296C15.062 8.61096 15.511 8.89996 15.755 9.34796C16 9.79596 16 10.33 16 11.398V21"
+                                stroke="#FFC107" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M11 12H11.009" stroke="#FFC107" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M20 21V15.162C20 12.871 18.74 12.685 16 12M2 21V15.162C2 12.871 3.26 12.685 6 12M1 21H21"
+                                stroke="#FFC107" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M11 21V17" stroke="#FFC107" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M11 5.99999V3.98199M11 3.98199V1.96999C11 1.49599 11 1.25899 11.146 1.11199C11.606 0.648985 13.5 1.74299 14.22 2.18699C14.828 2.56099 15 3.30899 15 3.98199H11Z"
+                                stroke="#FFC107" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-5 flex items-center justify-between">
+                    <div>
+                        <div class="text-xl font-semibold">128</div>
+                        <div class="text-gray-500">Écoles actives</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                        <!-- Placeholder active icon -->
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6 21V11.398C6 10.33 6 9.79596 6.245 9.34796C6.489 8.89996 6.938 8.61096 7.837 8.03296L9.919 6.69496C10.444 6.35796 10.706 6.18896 11 6.18896C11.294 6.18896 11.556 6.35796 12.082 6.69496L14.163 8.03296C15.062 8.61096 15.511 8.89996 15.755 9.34796C16 9.79596 16 10.33 16 11.398V21"
+                                stroke="#38AA36" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M11 12H11.009" stroke="#38AA36" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M20 21V15.162C20 12.871 18.74 12.685 16 12M2 21V15.162C2 12.871 3.26 12.685 6 12M1 21H21"
+                                stroke="#38AA36" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M11 21V17" stroke="#38AA36" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M11 5.99999V3.98199M11 3.98199V1.96999C11 1.49599 11 1.25899 11.146 1.11199C11.606 0.648985 13.5 1.74299 14.22 2.18699C14.828 2.56099 15 3.30899 15 3.98199H11Z"
+                                stroke="#38AA36" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-5 flex items-center justify-between">
+                    <div>
+                        <div class="text-xl font-semibold">45</div>
+                        <div class="text-gray-500">Écoles inactives</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
+                        <!-- Placeholder inactive icon -->
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6 21V11.398C6 10.33 6 9.79596 6.245 9.34796C6.489 8.89996 6.938 8.61096 7.837 8.03296L9.919 6.69496C10.444 6.35796 10.706 6.18896 11 6.18896C11.294 6.18896 11.556 6.35796 12.082 6.69496L14.163 8.03296C15.062 8.61096 15.511 8.89996 15.755 9.34796C16 9.79596 16 10.33 16 11.398V21"
+                                stroke="#F60606" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M11 12H11.009" stroke="#F60606" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path
+                                d="M20 21V15.162C20 12.871 18.74 12.685 16 12M2 21V15.162C2 12.871 3.26 12.685 6 12M1 21H21"
+                                stroke="#F60606" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M11 21V17" stroke="#F60606" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M11 5.99999V3.98199M11 3.98199V1.96999C11 1.49599 11 1.25899 11.146 1.11199C11.606 0.648985 13.5 1.74299 14.22 2.18699C14.828 2.56099 15 3.30899 15 3.98199H11Z"
+                                stroke="#F60606" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl px-4 py-2">
+                <div class="py-4">
+                    <h2 class="text-xl font-semibold">Liste des écoles</h2>
+                </div>
+
+                <!-- Search and filter -->
+                <div class="flex items-center gap-3 mb-6 border-y -mx-4 px-4 py-2" style="border-color: #EDF1F7;">
+                    <div class="flex items-center border rounded-lg bg-white px-3 w-1/3">
+                        <!-- Placeholder search icon -->
+                        <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M17.6523 16.9942L13.7886 13.1305M15.8759 8.11214C15.8759 12.0365 12.6946 15.2178 8.77022 15.2178C4.84587 15.2178 1.66455 12.0365 1.66455 8.11214C1.66455 4.18779 4.84587 1.00647 8.77022 1.00647C12.6946 1.00647 15.8759 4.18779 15.8759 8.11214Z"
+                                stroke="#667085" stroke-width="1.77642" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <input [(ngModel)]="search" type="text" placeholder="Recherche"
+                            class="w-full px-2 py-4 text-sm border-0 outline-none focus:outline-none focus:ring-0 appearance-none bg-transparent" />
+                    </div>
+                    <button
+                        class="flex items-center gap-2 border rounded-lg bg-white px-3 py-4 text-sm hover:bg-gray-50 transition">
+                        <!-- Placeholder filter icon -->
+                        <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.79028 6H13.7903M1.29028 1H16.2903M6.29028 11H11.2903" stroke="#344054"
+                                stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Filtrer avancé
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="rounded-xl overflow-hidden">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-[#F2F5F9] uppercase">
+                            <tr>
+                                <th class="px-6 py-4 font-bold">Nom</th>
+                                <th class="px-6 py-4 font-bold">Adresse</th>
+                                <th class="px-6 py-4 font-bold">Créé</th>
+                                <th class="px-6 py-4 font-bold">Statut</th>
+                                <th class="px-6 py-4 font-bold text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let s of filteredSchools" class="border-b hover:bg-gray-50">
+                                <td class="px-6 py-4 font-medium text-gray-800">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                                            <!-- Placeholder school logo -->
+                                            <svg width="31" height="31" viewBox="0 0 31 31" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g filter="url(#filter0_d_5_3176)">
+                                                    <circle cx="15" cy="15" r="14" fill="url(#pattern0_5_3176)"
+                                                        shape-rendering="crispEdges" />
+                                                    <circle cx="15" cy="15" r="13.9" stroke="#EDF1F7" stroke-width="0.2"
+                                                        shape-rendering="crispEdges" />
+                                                </g>
+                                                <defs>
+                                                    <filter id="filter0_d_5_3176" x="0.4" y="0.4" width="30.4"
+                                                        height="30.4" filterUnits="userSpaceOnUse"
+                                                        color-interpolation-filters="sRGB">
+                                                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                        <feColorMatrix in="SourceAlpha" type="matrix"
+                                                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                                            result="hardAlpha" />
+                                                        <feMorphology radius="0.6" operator="dilate" in="SourceAlpha"
+                                                            result="effect1_dropShadow_5_3176" />
+                                                        <feOffset dx="0.6" dy="0.6" />
+                                                        <feGaussianBlur stdDeviation="0.3" />
+                                                        <feComposite in2="hardAlpha" operator="out" />
+                                                        <feColorMatrix type="matrix"
+                                                            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0" />
+                                                        <feBlend mode="normal" in2="BackgroundImageFix"
+                                                            result="effect1_dropShadow_5_3176" />
+                                                        <feBlend mode="normal" in="SourceGraphic"
+                                                            in2="effect1_dropShadow_5_3176" result="shape" />
+                                                    </filter>
+                                                    <pattern id="pattern0_5_3176"
+                                                        patternContentUnits="objectBoundingBox" width="1" height="1">
+                                                        <use xlink:href="#image0_5_3176"
+                                                            transform="scale(0.00444444)" />
+                                                    </pattern>
+                                                    <image id="image0_5_3176" width="225" height="225"
+                                                        preserveAspectRatio="none"
+                                                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAABBVBMVEX////+/v4FPXoAsd0AtYz9/f3///0AN3cAJm8AOnkFPXsALXIANHUAr9wALXO5wc/l6e9HaJUhSYJWbZZObZgAMXQAH262v9E2W4wAsITe5e0ArNwHRICYpr4AKXAAtovv8/YAAGao4NEAsIDT8erJ09666N0yvpiY2sjk9fJpf6RqyugAI25+krHCy9mos8dFwOVvhagAGGyIlbCR2sVjy6+B07xMxaYWu5NYyqrN7+XZ2ufg8+81WZCQobv0//zN6/ba8/jW5eu0u9FwgKql3/G85N+etsomRoSD1uu86Pa+2Ome3M+o0+R8z+qqxdRtxuum4elMYJOc2/RLw+IAC2cAGGv14bk1AAAWeUlEQVR4nO1di1/bOLaWEizHjhOSgCEP4rhACCHkNeHVUhKYucwu7F7u7ELn//9Tro4kW5JtaJnbVtnf9TedJrETV5/P0XnpYYRy5MiRI0eOHDly5MiRI0eOHDly5MiRY32ACf2L8LfwiZhtzncHxtpHgvArX1wrsFZHTccA5bjyNSG44eHR/vHx8dnx8f7R52H2BaOr4P+IGyBZD4/OzgcbLQ7+2tsYnJ8dAU9rjdloTUsKEF7h/9XRxRXwykKrNbg4WrFvf+XqawhCwJSs9i9BXK+iR0n2Lo8sUGW8bpQSDUp0PWzRVh+e97JllxRl7/wQOFqYC57+vXZ00wwR2h8cbLwhPp3jwWBfcEPrpJ/4FVhUBvvfJj6F5JXCMb66SXqvg7br6Oqd/DjHI0U7zZN7TYD01OHlX+BH0WtdHiIi1ACvgwyxMAo6X+viLev5NTmeWdRIUawBPSQZShALHf4VBVUoDg4hBlgfhkhlCJ3nOIsfyBTimMHlx3OKj5cD+LyRZWqphzxGIMa1sKgZnTCTIItd9j+twrB2fX09ub6u1VbDT/sXg+xQp/XRWkd/yBFmNJn6832IP2vzv/vVclANgmrZbzTn3etwuE9jgpQge63B5zUwpdnYTzFs8ZjMQn3PL7hugcN1HM8PnPq0jY8yDS/tjKa5qIiDbXSRoLdx8ZklDxiFjlNIwS6Xb6bh8GIjfWOOzFJ6FSrD3kbveIXA8IPdWJbTBAsu/c/3T65XZyldpRSNK6pwg8oBjI8UYbQuVswo8ni6bmcw5PCCrevVRVKMB+YpZjC00FXMD/yaBQ6EOXB0k6Gkcaf0gpPa50ErRdEwdE+IeKx1eMD0c+PgOOIGhy2CTrxXGTI5lrvo+ED3kAdrZm4AVIhUFC2aC31m9oXwmwCy3Azctxi6heCm9vlKl2JvaFRPs6JuC6R1uL9/SLlyCVqxlOv+m0J0Xft0EyU8x8AkQZ0kiuoyIngDaiiKWRlREm6XPNu2PQbbdTNEejpGusEx7DO0aE30QwtkJ95YUogQShM0GZ/M58vxeDme128Kvpe2PdVtrId9Z2YZpiwNEgKTuhl9JjSg60/H2809z7ULe80t4Nm0KUlNlq53EyphUc8ww1Q1EcvEVcqPO5RwulUNyh7ENeDlHaqsdoPK88a39zRR2kAxNqg0zVgzCPXEmgwR6p94QcrhuwXPb4yX22VdWf2mFStqr3VomE6WMVVlyGpSaFIveSC4JEEXtNKZd5t+QTnrek0cFQla50YJSii6qpoXxhS1t6n4XneFju0su76nfsM/QeeMIs0TzXr8TBkqnZAZmG7Zfj1c47KszmvNsiLEQrBER+eDwcd9ZJmOTNOIxIfYDaA+8O1IhqO0i8bq99zyBK1DNZEBJwfSpIunZ9rUN3ydYMGuIzQNVNXdC/klDLFKQzQFSm1RGRA8fN+3C+kuSKMZV1Nc12nQ7rYbKAf9uVb9NkZLxjIRCLFI3AUnVSdNz6GBWzLbd/YgvZqU5GGn1CdrIUKNIX27ur29I0jUOvtBgh3NkE5LNycnJ1s31cBX/KO3heh9QbuluIpTcBr00BqMBUfM2PwDK3ypVDqd4i2TImrr+aBjV/35Zsh+9vnT4a+//Zcfu/rTCWKdrqvck2CqDNOYYym1kzblrlgpVuifzj0Mjlo3WhBjV7cnmJladHR1AAnkxe+/NapcI+ci4kNbMsFyCjwyMsYtAWA4q1B+xQ79c0doSu9LG+O6frOPeK0enYmQrNUaHP/t76Vy4HQRS0SobQr3ZMetdtfFX0SCvKXcOCojQjN6xZo4fjcu17AqRxRX9/b7k36IeEqCmbXRzI9pagqoCF+okgqGRRKq/sB2+8giwhyd68WmyyEiShapVHPcYHctZmngKLMfViqxDIt4oRRH7UYtDlctpNdhWBYf5czgYtrVWLnt5hqoqbClYGruY4LFyqzmawSJFZPAqUEKmgKq1Zyx/OlpzTQ/rU7zojB8WMTNdB2nTURJg5nLQZIhoxhH66QmnQz03vVBWJRKWrmNKzBuocR9XRSuZo2+tY5Exgx3As1jik59bcJv2o7HjhThixJF0wBT5lJQpVqlhbix8Vnmleg6+rHrBmFkn4wDoyfJsHPflJ3QS9ak0DBZvKe45L7SYsVxWf6vbpqdoalF3DNFS/8hDak/VUXIFRHvf0yO/bb2UVz2QONITV1/vDZaSizFV8ymip3RBSg8BkLD48SI4UpWBSbVuCM2xdQTk3rKvQW5k5a0+LwVR6TeUu+FssqIYDRNeo7WP8XADgylFmI1tUPT/ARDohqazqMd+Wyn1OZJgxSirMahI4Vib4BiKaPt+A5V2ya5AUiU9z4r3vC/pSVtSBtpWQllRehIDVEPRQmdijfuiIVq3yw/MAvwYmHypGjp/1QjGXpzlCKm9kdlFKZ1Ed8MNI0tVXmKDKvp8OLy8oLefTJSGEpDU57qMhRJkrSriqkZxKqMJnHdzV8aowbA6J9MBgcXCI0UU7qM62ulflKGGGM5KGXFuSKzpoK+Wv7wxtE/ZQbRIBHVMEWGL+OYYdAmCjOFmqCNPytqOkSReNuxu6BqbpKhpbTuDynDkTQUp6HmC3GknDFZJZdqfcLiCygsJRkawqdYAK1jleFJ7C2qNT6bhs3o4z0x0k9hQGSQCtNnRFxXi0v83olRhsdSAOd/SEMzkslBqYZUM4pTdlVnyO8ARrVAkaFJW7ovHfa5lGFxtpAM21ENPMEMC4sjZ99QLY3sLmrHtjSyNIagjEZ/VG1pN7Y05V2UoJV0jYqlOQTSBGhLW+ovjDKUE7x6l6rH34z9obeIJ2VE1LgiRvnu76otxaKnomlsS6tT/k8Z0lJpaXoDJT2s/CM2hfaW6vFTrtFCH2VXvuIdFbR0Gd+iYGJ0SYLizK7uFYaPckTNDxFbe6F7QmZy4P2h4vA/yqhNi7yJQYpDJTX4l9TSzv2/ZZLOOyKOmGnBDUIDJX3aj6ZpYmsvmoDilkO+GMoQw5ViCH9XZPgkjSmUPJVx78hdiPhTLQ7TbijES/oyA24Yrgkrzuy4qJiaSVxL4pFpbGHUuA2t1ClsrXOppMt4xIM6iyiZNANpJ3oXIyUFvo2nlrh2HSV0k/dKjI82VFBvGAk3rkQ5LDcxmt8rmcHgWanpP8jYGyYhRHPdlKANJwtul3HuRNpSA4IaMctQcYgb/5IjT8XZtRzMdewQSflFjjC86mnV/dahVNJYxwt2Iy4mG2I4VJq4r9W8ZS2qYNeJqqecRWJOd+sMxV0U9WN36i9ludwIQaKOQZyrPv9FtpKGbnOkugzGVp8K3LuMKgBwNow7MQtrTWopVkXRe1RqUZW7ujLRqzpGhIgqG1fXocZv42qlChktA7FKYZu5SKMMlaUHqprSHLGtCNENTizhzkU4OtQ64dVQrWzQ01uBQztw9SYkEUNDNAlaKS39+KQK8Xbsq6P4N2193rei3q3BEEFGrMZ13UZQbiwsrtwG13jRf1iJnFu/V5TIbbZqqFMxbG9pIRmPKolX61yorlLKwcgK2xYS46qG2Amoaqo6fRqcXvvqhCjXb0xDVlplf9A5Lwa3ekfxAI8VZU/wgaCYt0F69B9fqRZDsTUw42Qa6HO7ys64j8S0BAufsZ0jLlaRs7RkGSeK7/AarJTVZla0zkYKw8oMjROzvlwvuKmJQJOGpUfHR1CQiqfyS3aWOoRjenhNzfCUuIbZU3SSXK3m2n5IojyfzbBRC+BRN5XFAO4jzbHDiYkHrYunimpPH9C86uhrDaA8qORSkX/UAh41fIX/CTbZG7G2ZvTg96IqxM4zWpYSM9idUijyQBybHVm2ES8yhLUIvrNouGCKn74aj2Jwr+ppkVLcLdsaQzdoy8FEVuCIVVSxp5EU0d2o06nMHokxhwjmVBVi62xWUQ1q5QnVmrpJhTHT1Hz3xIgNI0sIJveditB3YxyBpSrE1mFRcxmdF4RgqYEiRCV6YZM2sfoZq1NySTQXsFO5N8SQ10H1dbFsuFsJboq3KJyXfRa80b+CLooHEi2dWgwapwM/vIovVCma1dNLbTj+oaMrauWZoPbYKdsFxykE20S69pSB1A5Y6gSWzq2ReTWRMil1040BIiONIaU4o80Lp3UvKO0thQSFVXkL6KmjVigNzhwiBClbmZxT3mBtFJL0w+wOweK8mpW5ziaLqoU0s9x5NMWQ6RW4fU6xxwYBVzNNiMxUvNAmEpLmx/bLImmC5FH3O6HhKUPRzGZYakYbvJp1irqmUvdffLjlrWR7gJHIdNw93j+ukDZ9jboJ8qj35SeD3oLjE9sT6uDcslj7gWISFUpydH+3klxWd49Pswp16dQZaAY1JcHiymBYw4BRuH9+fnEYl8bIKIMiJQmz+Wcvo6en0eiFmkpudivFziiSKZthRfTQqFi5JZbhXSQjFYrqtzSBfagkO2ORswFhgtyK4gvs707s0gn8VldyOLkG22TGpkN8II/FNMc3EO3ThsnqRSdYiQVsFli6a7FyLaszvorKXSSlu8SdqcyI0RzxDcD0/W/m2AGPSW8Leejokq8UwTatA8O006bWYUWTn2+UIRsKJbfFhI2pFIfrsUrvle3paILHOtVXOiQ1pjOwlsNRQoBFRnDNZKgdAdd+90cx2e40ReoP0PCpk7ZNd/G2w8aBs1SJHlo9Pt4/FTtvihFc/h3IL6HSlWIoPP06MNQQ0SXhCJzf7Onhibt35g41DizUebx/4XLW7kNnFpqloSOrG6JVMWr47OH5aVZkNHkcw1ab0rOz0cP9KFOPaaCjXcw0hMcmmluMYjfgUylSLvcPNFqbwaEZBG/398+j2SuRQeeZ2hjzvN6CvkSB0aSfZ6MRDUup2vLItJJNjx69NR1sJ4FT74m6YE/jyQLTN51IZxSuRSyqAmt7KPFlJs9ZDF9lpQrwHq3ZxtBE84cRzUwZfh2dyig0TSiFVxgO/wLDSmd2i1LJxDqIU3cTYrOAp3dkF4we5feIMvrfGjBMbXDCX2dfDdhUdBi/rHR+DRhmR96EPH8lYOOiE/xGt2wllaXcosh+mSWXhNYe8kgzqK8pawXEdz98fRhtHRimLY3Yg4+Q1SOEZa/VNFjBZvZ8Rwh+fXrQOjB8BXFZ9PkF9JDFMBURq0IVFSLTp0d4/AP+D38sC2SK4e3904iF37zYNps9PT8OV3BqjWX0rRCTZCgbK7xjCFfgFggbpV9nLcyRI0eOHDly5PgPRJQYZU7eZcUxnIoxYa4Fe/Bh/Ass1/pYWdF2RjrIJohFJX42FI5/fLEx1Tb+T6YyoPiz8gOScUy5cirN124RLzP+oHLqZHdTAHbKSzYDju+m84SwP2E/idsdwlUm7C2pxVeUSNcxMKot5/3oxrBWhD8m1WqWyhzV4LQxvkZ63uMG5fIHtZBEm9pe3OwEVfqLwIlveu1LuVqq8/ebf5YTqJbCdDGqX/K9nWjaUJ224ssP2stNfQqH453W21pbGk6hsKMdaW+d+g6fJezuxTejViq49hZ/L7dMkosz0gwtuHR1U3yCdcKlH8fQFTO2YTWFfbpU+lSCIe0uU7bPtfhFI1Y+jWEgridfKENN0+nP2EZ81d2fw7Dgej6FzRsUnCjP2NAZEliO4MJSUBt+UXYyGW7u+Ax8SQZ7G4S6/YHtXNyfydBbdLvd8ZYTsC3yA2Vfh4SWdkvwhAfXr26Pu4AshqS9ZOeWNv1mY8red0N9UIYwHf2JDMW1rd0GLN5ydzZj/6UyjG68bXfD5FVUhuJQWHZh77IM0Psy5n315zFk+2/R22zNoQ85bvxkX4Uh1bMm3Hi/HqY9l6ql0SHOMMMDEFhU6ppgCJHFuEzVEHar4mc1LZ3AUgtvi4Ujiau8j6HVEJuC/2SGiAUrICenkcmQbSZrZwYe72LI7Cjb0dYAQ9rXTgvKRqoqQwu8SdwmHe9i2AddaMDOTD+fIaBps11oOFSGbMG6R0jCKrKXb2eIkQVPMClNYIc0EwwxWnrKpmoqw90y2+XJIpMPOxGq6L0MqR2lBpv25q4hhtRhl5WtjlSGcNP9LjCsugLOnkgL3qGl/R3Y4aRmkCFseBRvOaYxLDP1VbeXc/fEuW9kSLNIAjpa7iLTDKPNnLIZlhzAX2CICbOj9g3tvuYY7lbf6If0BGVYaAAgfnsvQ6qj9FfBr/SdKYZ8I85qli2FLQfsLZmun9jvZogI8/NMQ0wxJAi2iy1l+kNIm0phtCIGbXnuuxnCJjDs8SWmGNL8HvYdc26yYxqbbbeG2RoTgrbeK0MIJ1xwheygGYYWCW2+EVBmXEptkBO0ozrHlvdOhgQ3HLYyml3ABEN4VNwNLPL144KZnj016UnbqYnP72MIUgc76tghrzy+wfD7jh8LhoRNKpgUINEvydgzkR+eQq3D32UNpoH4e/ohFhvxBNHFMxgSvuztO1cVKUPY3xlbYXvaZI/28ZWWagxZEYM9e7PbDi104rxLS3nOZNcjCaUYBjWx0PY7T+BgdRqqO7YXVOGt690oFWCNIaW4VYYqjeOXfNuG5xy+Q0tp6kn/IZq1vMbQdeCxSrb3vZ+BwaqJygL7clNd7pGotWF0UtJ2VHiHDFlaVpZPf0gxFK2wbzJzyv8jw7jF3s4SqTO1EgypdKen3l9jCHa00JDn0wxF0fb7M3SiRMGrluYJi02b5e6oT/DFKBwHVc9xErnFqVNIMqw6bvzUFdBRuFlKvbnru67CMEpX4DffmaEvngRbaM53k6VpvEfPftG8NtSrNsf1PfYAWb8g2Ld/8bxygmHJ9/xYHv0/6T9xOlZqWN2S551GDOtVL4Lf+JHPRCaJUTARrmkMkXYXRIszK2r8itol5KAI1k5rv1y3Ce85cuTIkeP/MaTnYjNOcHSEYHXuCDsW/c8/sS/EHo0diZwhkZc1vxIYNnBeiFH23UWbsUSTxTLknJYLsbU6mi5CfnK66LIxKUz6olLXXyymLCLo8y+TdnTFdhctTT9jDpNff5nz6SP98pwF2Bbantfn7NZbX5a/XLOTf2tsbSMQiWUvPSim0j9zn1+jX7/ZZRow5iV0qzT+UGPynO6EpfAnM0qCoG70IIrxsn0Krxjd9OlBYNiuogZ/5k99c3LDvh6eou0p01DkuCIKW4jC8gnPmSYNtHPNLrTc6XumV1sSaBbvPzeTvgu8iOVOvT5jOGm0fwnZyXJ7CgE3IbXqtMRUmFzXG0IDt4Uq13mATW/PBzhDs8z6svGdM4h3g6B/7wpbUO3v1tkyg9Df2eWm4rdTMf4W/hkuuAr2g50aD7CX04ao3TXELCmXa/R4EX6AV4zq02bdPMNGNCXrz9qYaRupOeM5t6PQsXhe+AVtTZld3N3emnL69dNTzgj5/NXa4TI9mV473Ig22r7Zh7EgaH99exyyt9486DODP9mrfeC29GSJ+ETC8M/xF/6t5Xyyx5ZRUjk1uckMP/BTofjKuNlccmXYCRsL094Cpq91eRvaC66vpN9FXc51KqfcLVjPxGR301qweUHtJZwGhGNR4hAGJ1x2+YxEa2FN+6bXDbEJpHp2SzsZ4XsOYaWCJl4tmKDCfsS+JU5Grzj+MtYuZBRyRi0WCTrfW485BNk68S0i9i7FiO25z3+BxfONSfTKdw6BG2G9sW4vR44cOXLkyJEjR44cOXLkyJEjR44cOXK8D/8L+WcB6Bg4IYUAAAAASUVORK5CYII=" />
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        {{ s.name }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">{{ s.address }}</td>
+                                <td class="px-6 py-4">{{ s.created }}</td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center gap-2 text-xs font-medium px-3 py-1 rounded-full"
+                                        [ngStyle]="{ 'background-color': s.status === 'Actif' ? '#0A97480F' : '#FF09090F' }"
+                                        [ngClass]="{ 'text-green-600': s.status === 'Actif', 'text-red-600': s.status !== 'Actif' }">
+                                        <span class="w-2 h-2 rounded-full"
+                                            [ngClass]="{ 'bg-green-700': s.status === 'Actif', 'bg-red-600': s.status !== 'Actif' }"></span>
+                                        {{ s.status }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-6 flex items-center justify-left gap-8">
+                                    <!-- Placeholder eye -->
+                                    <button class="text-gray-600 hover:text-gray-800" title="Voir">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10 4C4.5 4 1.25 10 1.25 10C1.25 10 4.5 16 10 16C15.5 16 18.75 10 18.75 10C18.75 10 15.5 4 10 4Z"
+                                                stroke="#475467" stroke-width="1.6" />
+                                            <circle cx="10" cy="10" r="2.8" stroke="#475467" stroke-width="1.6" />
+                                        </svg>
+                                    </button>
+                                    <!-- Placeholder edit -->
+                                    <button class="text-indigo-700 hover:text-indigo-900" title="Modifier">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2.16667 13.8333H3.35417L11.5 5.6875L10.3125 4.5L2.16667 12.6458V13.8333ZM0.5 15.5V11.9583L11.5 0.979167C11.6667 0.826389 11.8508 0.708333 12.0525 0.625C12.2542 0.541667 12.4658 0.5 12.6875 0.5C12.9092 0.5 13.1244 0.541667 13.3333 0.625C13.5422 0.708333 13.7228 0.833333 13.875 1L15.0208 2.16667C15.1875 2.31944 15.3092 2.5 15.3858 2.70833C15.4625 2.91667 15.5006 3.125 15.5 3.33333C15.5 3.55556 15.4619 3.7675 15.3858 3.96917C15.3097 4.17083 15.1881 4.35472 15.0208 4.52083L4.04167 15.5H0.5Z"
+                                                fill="#2F2884" />
+                                        </svg>
+                                    </button>
+                                    <!-- Placeholder toggle -->
+                                    <button class="text-gray-400" title="Toggle">
+                                        <svg width="24" height="14" viewBox="0 0 24 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="24" height="14" rx="7" fill="#009E3B" />
+                                            <circle cx="17" cy="7.00049" r="5" fill="white" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-between items-center py-3 text-sm text-gray-600">
+                        <span>Page 1 sur 12</span>
+                        <div class="flex gap-2">
+                            <button class="border rounded-lg px-3 py-2 hover:bg-gray-100">Précédent</button>
+                            <button class="border rounded-lg px-3 py-2 hover:bg-gray-100">Suivant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

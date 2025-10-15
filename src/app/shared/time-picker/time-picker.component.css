@@ -1,0 +1,14 @@
+/* Popover styling and scroll columns */
+:host {
+    display: inline-block;
+}
+
+/* Smooth scroll feel */
+[data-col] {
+    scroll-behavior: smooth;
+}
+
+/* Hide native time picker icons if any (we use text input) */
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}

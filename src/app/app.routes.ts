@@ -51,6 +51,14 @@ export const routes: Routes = [
         path: 'drivers',
         loadComponent: () => import('./drivers/drivers-list/drivers-list.component').then(m => m.DriversListComponent)
     },
+    {
+        path: 'schools',
+        loadComponent: () => import('./schools/schools-list/schools-list.component').then(m => m.SchoolsListComponent)
+    },
+    {
+        path: 'schools/nouvelle-ecole',
+        loadComponent: () => import('./schools/new-school/new-school.component').then(m => m.NewSchoolComponent)
+    },
     // Fallback pour routes non définies
     { path: '**', redirectTo: 'login' },
 ];

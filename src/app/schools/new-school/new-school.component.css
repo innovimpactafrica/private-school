@@ -1,0 +1,9 @@
+/* Minimal styles; rely on Tailwind for the layout */
+:host {
+    display: block;
+}
+
+/* Fallback to ensure checkbox accent is green across browsers */
+.checkbox-green {
+    accent-color: #38AA36;
+}

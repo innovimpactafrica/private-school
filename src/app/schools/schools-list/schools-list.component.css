@@ -1,0 +1,4 @@
+/* Keep styles minimal; rely on Tailwind for layout and responsiveness */
+:host {
+    display: block;
+}
