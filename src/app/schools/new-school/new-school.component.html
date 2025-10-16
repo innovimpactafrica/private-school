@@ -20,8 +20,8 @@
                         </svg>
                     </button>
                     <div>
-                        <p class="text-sm text-gray-500">Gestion des utilisateurs / Nouveau utilisateur</p>
-                        <h1 class="text-2xl font-semibold text-[#2B3674] mb-4">Nouvelle École</h1>
+                        <p class="text-sm text-[#707EAE]">Gestion des utilisateurs / Nouveau utilisateur</p>
+                        <h1 class="text-2xl font-semibold text-[#2B3674]">Nouvelle École</h1>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
@@ -41,19 +41,18 @@
                         <div>
                             <label class="block text-base text-gray-700 mb-2">Nom de l’école</label>
                             <input [(ngModel)]="name" type="text" placeholder="Ex : lycée el amine"
-                                class="w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-0" />
+                                class="w-full rounded-lg border border-[#CBD5E1] px-4 py-3 focus:outline-none focus:ring-0 focus:border-[#CBD5E1]" />
                         </div>
                         <div>
                             <label class="block text-base text-gray-700 mb-2">Adresse</label>
                             <input [(ngModel)]="address" type="text" placeholder="Ex : yeumbeul"
-                                class="w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-0" />
+                                class="w-full rounded-lg border border-[#CBD5E1] px-4 py-3 focus:outline-none focus:ring-0 focus:border-[#CBD5E1]" />
                         </div>
                         <div>
                             <label class="block text-base text-gray-700 mb-2">Logo</label>
                             <div class="rounded-lg bg-[#F2F4F7] text-gray-500 p-6 text-center cursor-pointer"
-                                (drop)="onDropLogo($event)" (dragover)="onDragOver($event)"
-                                (click)="$event.preventDefault(); $event.stopPropagation(); fileInput.click();">
-                                <div class="flex flex-col items-center gap-2">
+                                (drop)="onDropLogo($event)" (dragover)="onDragOver($event)" role="button" tabindex="0">
+                                <label for="logo-file-input" class="flex flex-col items-center gap-2 cursor-pointer">
                                     <!-- Placeholder upload icon -->
                                     <span>glisser et déposer le fichier</span>
                                     <svg width="31" height="21" viewBox="0 0 31 21" fill="none"
@@ -63,8 +62,9 @@
                                             fill="#A5A5A5" />
                                     </svg>
                                     <span class="text-xs text-gray-400" *ngIf="logoFile">{{ logoFile.name }}</span>
-                                </div>
-                                <input #fileInput type="file" class="hidden" (change)="onFileInput($event)" />
+                                </label>
+                                <input id="logo-file-input" #fileInput type="file" class="sr-only"
+                                    (change)="onFileInput($event)" />
                             </div>
                         </div>
                     </div>
@@ -111,5 +111,23 @@
                 </section>
             </div>
         </main>
+    </div>
+</div>
+
+<!-- Success Popup -->
+<div *ngIf="showSuccess" class="fixed inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="relative bg-white rounded-2xl shadow-lg px-16 py-14 text-center select-none">
+        <div class="mx-auto mb-8 flex items-center justify-center">
+            <!-- Green check icon inside a circle -->
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="50" stroke="#38AA36" stroke-width="8" fill="none" />
+                <path d="M40 62L55 77L82 50" stroke="#38AA36" stroke-width="8" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </div>
+        <p class="text-lg leading-7 px-16 text-gray-800">
+            <span class="font-semibold">L’école</span> a été ajoutée avec succès
+        </p>
     </div>
 </div>

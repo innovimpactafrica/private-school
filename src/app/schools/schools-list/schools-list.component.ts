@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { Router } from '@angular/router';
+import { SchoolsService, SchoolItem } from '../schools.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-schools-list',
@@ -12,14 +14,21 @@ import { Router } from '@angular/router';
     templateUrl: './schools-list.component.html',
     styleUrls: ['./schools-list.component.css']
 })
-export class SchoolsListComponent {
-    constructor(private router: Router) { }
+export class SchoolsListComponent implements OnInit, OnDestroy {
+    constructor(private router: Router, private schoolsService: SchoolsService) { }
     search = '';
+    private sub?: Subscription;
+    schools: SchoolItem[] = [];
 
-    schools = [
-        { name: 'Collège de Dakar', address: 'Dakar, rue 21', created: '05/10/2025', status: 'Actif' },
-        { name: 'Lycée el amine', address: 'Parcelles, unité 12', created: '05/10/2025', status: 'Inactif' },
-    ];
+    ngOnInit(): void {
+        this.sub = this.schoolsService.schools$.subscribe(list => {
+            this.schools = list;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.sub?.unsubscribe();
+    }
 
     get filteredSchools() {
         const t = this.search.trim().toLowerCase();
@@ -29,5 +38,12 @@ export class SchoolsListComponent {
 
     goToCreate() {
         this.router.navigate(['/schools/nouvelle-ecole']);
+    }
+
+    editSchool(s: SchoolItem) {
+        // Navigate with id if exists, else fallback to list
+        if ((s as any).id != null) {
+            this.router.navigate(['/schools/modifier-ecole', (s as any).id]);
+        }
     }
 }

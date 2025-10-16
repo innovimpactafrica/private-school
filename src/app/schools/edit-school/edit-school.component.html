@@ -1,0 +1,152 @@
+<div class="flex min-h-screen bg-[#EDF1F7]">
+    <app-sidebar></app-sidebar>
+    <div class="flex-1 flex flex-col">
+        <app-header></app-header>
+
+        <main class="px-8 py-5">
+            <!-- Breadcrumb + Actions -->
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-3">
+                    <button type="button" (click)="cancel()" aria-label="Retour"
+                        class="inline-flex items-center justify-center p-5 rounded-lg bg-white border border-gray-200 hover:bg-gray-50">
+                        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 7H1M1 7L7 1M1 7L7 13" stroke="#2B3674" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div>
+                        <p class="text-sm text-[#707EAE]">Gestion des ecoles / {{ name || 'École' }}</p>
+                        <h1 class="text-2xl font-semibold text-[#2B3674]">Modification école</h1>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button (click)="cancel()"
+                        class="px-5 py-3 bg-white text-red-600 rounded-lg hover:bg-red-50">Annuler</button>
+                    <button (click)="update()"
+                        class="px-5 py-3 bg-[#38AA36] text-white rounded-lg hover:bg-green-600">Mettre à jour</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <!-- Left: Informations générales -->
+                <section class="col-span-2 bg-white rounded-xl p-6">
+                    <h2 class="text-2xl mb-4 border-b -mx-4 px-4 py-2" style="border-color: #EDF1F7;">Informations
+                        générales</h2>
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-base text-gray-700 mb-2">Nom de l’école</label>
+                            <input [(ngModel)]="name" type="text"
+                                class="w-full rounded-lg border border-[#CBD5E1] px-4 py-3 focus:outline-none focus:ring-0 focus:border-[#CBD5E1]" />
+                        </div>
+                        <div>
+                            <label class="block text-base text-gray-700 mb-2">Adresse</label>
+                            <input [(ngModel)]="address" type="text"
+                                class="w-full rounded-lg border border-[#CBD5E1] px-4 py-3 focus:outline-none focus:ring-0 focus:border-[#CBD5E1]" />
+                        </div>
+                        <div>
+                            <label class="block text-base text-gray-700 mb-2">Logo</label>
+                            <div class="rounded-lg bg-[#F2F4F7] text-gray-500 p-6 text-center cursor-pointer"
+                                (drop)="onDropLogo($event)" (dragover)="onDragOver($event)" role="button" tabindex="0">
+                                <label for="edit-logo-file-input"
+                                    class="flex flex-col items-center gap-2 cursor-pointer">
+                                    <span>glisser et déposer le fichier</span>
+                                    <svg width="31" height="21" viewBox="0 0 31 21" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M16.5726 20.5V14.7857H20.8586L15.5011 9.07143L10.1435 14.7857H14.4296V20.5H9.07204V20.4524C8.89203 20.4619 8.72059 20.5 8.53629 20.5C6.40493 20.5 4.36087 19.7475 2.85377 18.4079C1.34668 17.0684 0.5 15.2515 0.5 13.3571C0.5 9.69238 3.61808 6.70572 7.61908 6.29619C7.96987 4.66627 8.9487 3.19594 10.3872 2.13809C11.8257 1.08025 13.634 0.501006 15.5011 0.5C17.3684 0.500929 19.177 1.0801 20.6158 2.13792C22.0547 3.19575 23.034 4.66612 23.3852 6.29619C27.3862 6.70572 30.5 9.69238 30.5 13.3571C30.5 15.2515 29.6533 17.0684 28.1462 18.4079C26.6391 19.7475 24.5951 20.5 22.4637 20.5C22.2837 20.5 22.1101 20.4619 21.928 20.4524V20.5H16.5726Z"
+                                            fill="#A5A5A5" />
+                                    </svg>
+                                    <span class="text-xs text-gray-400" *ngIf="logoFile">{{ logoFile.name }}</span>
+                                </label>
+                                <input id="edit-logo-file-input" type="file" class="sr-only"
+                                    (change)="onFileInput($event)" />
+                            </div>
+                            <!-- Logo preview with fallback to default SVG -->
+                            <div class="mt-4 flex items-center justify-start">
+                                <ng-container *ngIf="currentLogoUrl; else defaultSchoolLogo">
+                                    <img [src]="currentLogoUrl" alt="Logo de l'école"
+                                        class="w-20 h-20 max-w-24 md:max-w-32 rounded-full border-2 border-[#38AA36] object-cover fade-in"
+                                        width="80" height="80" />
+                                </ng-container>
+                                <ng-template #defaultSchoolLogo>
+                                    <div
+                                        class="w-150 h-150 max-w-150 md:max-w-32 flex items-center justify-center overflow-hidden fade-in">
+                                        <!-- Default SVG (same as list placeholder) -->
+                                        <svg width="145" height="145" viewBox="0 0 145 145" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="1.32711" y="1.32687" width="142.788" height="142.788" rx="71.3942" fill="url(#pattern0_7_8645)" stroke="#4CAF50" stroke-width="1.44231"/>
+<defs>
+<pattern id="pattern0_7_8645" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_7_8645" transform="scale(0.00444444)"/>
+</pattern>
+<image id="image0_7_8645" width="225" height="225" preserveAspectRatio="none" xlink:href="data:image/png;base64,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"/>
+</defs>
+</svg>
+
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Right: Configuration des horaires -->
+                <section class="col-span-3 bg-white rounded-xl p-6">
+                    <h2 class="text-2xl mb-4 border-b -mx-4 px-4 py-2" style="border-color: #EDF1F7;">Configuration des
+                        horaires</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="text-[#2F2884]">
+                                <tr class="border-b" style="border-color: #EDF1F7;">
+                                    <th class="text-left py-3">Jour</th>
+                                    <th class="text-left py-3">Disponibilité</th>
+                                    <th class="text-left py-3">Ouverture</th>
+                                    <th class="text-left py-3">Fermeture</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let d of days" class="border-b" style="border-color: #EDF1F7;">
+                                    <td class="py-3">{{ d.day }}</td>
+                                    <td class="py-3">
+                                        <label class="inline-flex items-center gap-2 cursor-pointer">
+                                            <input type="checkbox" [(ngModel)]="d.open"
+                                                (ngModelChange)="onToggleOpen(d)"
+                                                class="form-checkbox checkbox-green w-4 h-4 rounded border-gray-300 text-[#38AA36] focus:ring-[#38AA36] focus:ring-1 focus:ring-offset-0 checked:bg-[#38AA36] checked:border-[#38AA36]"
+                                                style="accent-color: #38AA36;" />
+                                            <span>{{ d.open ? 'Ouvert' : 'Fermé' }}</span>
+                                        </label>
+                                    </td>
+                                    <td class="py-3">
+                                        <app-time-picker [value]="d.openTime" (valueChange)="d.openTime = $event"
+                                            [disabled]="!d.open" [minuteStep]="1" format="24h"></app-time-picker>
+                                    </td>
+                                    <td class="py-3">
+                                        <app-time-picker [value]="d.closeTime" (valueChange)="d.closeTime = $event"
+                                            [disabled]="!d.open" [minuteStep]="1" format="24h"></app-time-picker>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Success Popup Overlay -->
+<div *ngIf="showSuccess" class="fixed inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/10"></div>
+    <div class="relative bg-white rounded-2xl shadow-lg px-16 py-14 text-center select-none">
+        <div class="mx-auto mb-8 flex items-center justify-center">
+            <!-- Green check icon inside a circle -->
+            <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="50" stroke="#38AA36" stroke-width="8" fill="none" />
+                <path d="M40 62L55 77L82 50" stroke="#38AA36" stroke-width="8" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </div>
+        <p class="text-lg leading-7 px-16 text-gray-800">
+            <span class="font-semibold">L’école</span> a été ajoutée avec succès
+        </p>
+    </div>
+</div>

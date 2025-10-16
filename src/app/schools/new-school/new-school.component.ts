@@ -5,6 +5,7 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { TimePickerComponent } from '../../shared/time-picker/time-picker.component';
 import { Router } from '@angular/router';
+import { SchoolsService } from '../schools.service';
 
 interface DayConfig {
     day: string;
@@ -21,11 +22,13 @@ interface DayConfig {
     styleUrls: ['./new-school.component.css']
 })
 export class NewSchoolComponent {
-    constructor(private router: Router) { }
+    constructor(private router: Router, private schoolsService: SchoolsService) { }
 
     name = '';
     address = '';
     logoFile?: File;
+    showSuccess = false;
+    private successTimer?: any;
 
     days: DayConfig[] = [
         { day: 'Lundi', open: true, openTime: '08:00', closeTime: '18:00' },
@@ -60,13 +63,37 @@ export class NewSchoolComponent {
         }
     }
 
+    openFilePicker(event: MouseEvent, fileInput: HTMLInputElement) {
+        event.preventDefault();
+        event.stopPropagation();
+        fileInput.click();
+    }
+
     cancel() {
         this.router.navigate(['/schools']);
     }
 
     save() {
-        // Stub: keep on page or navigate back; modal could be added later
-        this.router.navigate(['/schools']);
+        // Simple validation: require name & address
+        if (!this.name.trim() || !this.address.trim()) {
+            return;
+        }
+        // Build school item; created date today dd/mm/yyyy
+        const now = new Date();
+        const created = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+        this.schoolsService.addSchool({
+            name: this.name.trim(),
+            address: this.address.trim(),
+            created,
+            status: 'Actif'
+        });
+
+        // Show success popup then redirect after 3s
+        this.showSuccess = true;
+        this.successTimer = setTimeout(() => {
+            this.showSuccess = false;
+            this.router.navigate(['/schools']);
+        }, 3000);
     }
 
     onToggleOpen(day: DayConfig, which: 'open' | 'close' = 'open') {

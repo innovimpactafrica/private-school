@@ -59,6 +59,10 @@ export const routes: Routes = [
         path: 'schools/nouvelle-ecole',
         loadComponent: () => import('./schools/new-school/new-school.component').then(m => m.NewSchoolComponent)
     },
+    {
+        path: 'schools/modifier-ecole/:id',
+        loadComponent: () => import('./schools/edit-school/edit-school.component').then(m => m.EditSchoolComponent)
+    },
     // Fallback pour routes non définies
     { path: '**', redirectTo: 'login' },
 ];
